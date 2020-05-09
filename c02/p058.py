@@ -16,6 +16,10 @@ def sum_of_n_2(n):
 
 for i in range(5):
     print('Sum is %d required %10.7f seconds' % sum_of_n_2(10000))
+print()
+
+for i in range(5):
+    print('Sum is %d required %10.7f seconds' % sum_of_n_2(1000000))
 
 """
 Sum is 50005000 required  0.0006449 seconds
@@ -23,4 +27,10 @@ Sum is 50005000 required  0.0006080 seconds
 Sum is 50005000 required  0.0006089 seconds
 Sum is 50005000 required  0.0006161 seconds
 Sum is 50005000 required  0.0006239 seconds
+
+Sum is 500000500000 required  0.0476000 seconds
+Sum is 500000500000 required  0.0550399 seconds
+Sum is 500000500000 required  0.0564568 seconds
+Sum is 500000500000 required  0.0504000 seconds
+Sum is 500000500000 required  0.0536993 seconds
 """
