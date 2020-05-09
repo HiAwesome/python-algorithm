@@ -4,7 +4,7 @@ def anagram_solution1(s1, s2):
 
     :param s1: 字符串1
     :param s2: 字符串2
-    :return: 两个字符串是否为回文对应关系的布尔值
+    :return: 两个字符串是否为变位词关系的布尔值
     """
     a_list = list(s2)
 
