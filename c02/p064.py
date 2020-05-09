@@ -1,6 +1,7 @@
 def anagram_solution1(s1, s2):
     """
     两个 while 循环表示此算法的时间复杂度是 O(n^2).
+
     :param s1: 字符串1
     :param s2: 字符串2
     :return: 两个字符串是否为回文对应关系的布尔值
