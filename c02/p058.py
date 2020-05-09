@@ -8,6 +8,7 @@ import time
 
 def sum_of_n_2(n):
     """
+    迭代求和，仅使用加法。
     :param n: 1 到 n 的和
     :return: 元组（元素的组合），第一位为值，第二位为所花时间
     """
