@@ -5,20 +5,22 @@
 我们想要看到的是，随着列表长度的增加，从列表末端删除元素的pop操作时间保持稳定，而从列表开头删除元素的pop操作则随着长度的增加而增加。
 
 下面的代码展示了对这两种pop操作的区别进行测量的一个尝试。正如你从第一个例子中看见的那样，
-从列表末尾删除的pop操作耗时 0.0001 秒，然而从列表开头删除则耗时 1.4309 秒。
+从列表末尾删除的pop操作耗时 0.00009 秒，然而从列表开头删除则耗时 1.40275 秒。
 对于一个有2百万个元素的列表，两种操作耗费的时间相差 14000 倍。
 """
 
 from timeit import Timer
 
 pop_zero = Timer('x.pop(0)', 'from __main__ import x')
-pop_end = Timer('x.pop()', 'from __main__ import x')
+pop_end = Timer('y.pop()', 'from __main__ import y')
 
 x = list(range(2000000))
-print(pop_zero.timeit(number=1000))
-print(pop_end.timeit(number=1000))
+print('%15.10f' % pop_zero.timeit(number=1000))
+
+y = list(range(2000000))
+print('%15.10f' % pop_end.timeit(number=1000))
 
 """
-1.4309413
-0.00011534499999998893
+   1.4027522290
+   0.0000952200
 """
