@@ -23,29 +23,32 @@ class Stack:
 
 if __name__ == '__main__':
     s = Stack()
-    print(s.is_empty())
-    print(s.pop())
+    print(s.is_empty(), s.pop())
 
     s.push(4)
     print(s)
 
     s.push('dog')
-    print(s)
-    print(s.peek())
+    print(s, s.peek())
 
     s.push(True)
-    print(s)
-    print(s.size())
-    print(s.is_empty())
+    print(s, s.size(), s.is_empty())
 
     s.push(8.4)
     print(s)
 
     e1 = s.pop()
-    print(e1)
-    print(s)
+    print(e1, s)
 
     e2 = s.pop()
-    print(e2)
-    print(s)
-    print(s.size())
+    print(e2, s, s.size())
+
+"""
+True The stack is empty now!
+[4]
+[4, 'dog'] dog
+[4, 'dog', True] 3 False
+[4, 'dog', True, 8.4]
+8.4 [4, 'dog', True]
+True [4, 'dog'] 2
+"""
