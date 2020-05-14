@@ -1,5 +1,5 @@
 """
-已经找到异常原因：labprinter.tick() 应该与上面的 if 对齐而不是在其内部
+source: https://facert.gitbooks.io/python-data-structure-cn/3.%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/3.14.%E6%A8%A1%E6%8B%9F%EF%BC%9A%E6%89%93%E5%8D%B0%E6%9C%BA/
 """
 import random
 
@@ -7,7 +7,6 @@ from pythonds.basic.queue import Queue
 
 
 class Printer:
-
     def __init__(self, ppm):
         self.pagerate = ppm
         self.currentTask = None
@@ -38,8 +37,8 @@ class Task:
     def getPages(self):
         return self.pages
 
-    def waitTime(self, currentTime):
-        return currentTime - self.timestamp
+    def waitTime(self, currenttime):
+        return currenttime - self.timestamp
 
 
 def simulation(numSeconds, pagesPerMinute):
@@ -48,6 +47,7 @@ def simulation(numSeconds, pagesPerMinute):
     waitingtimes = []
 
     for currentSecond in range(numSeconds):
+
         if newPrintTask():
             task = Task(currentSecond)
             printQueue.enqueue(task)
@@ -60,27 +60,30 @@ def simulation(numSeconds, pagesPerMinute):
         labprinter.tick()
 
     averageWait = sum(waitingtimes) / len(waitingtimes)
-    print('Average Wait %6.2f secs %3d tasks remaining.' % (averageWait, printQueue.size()))
+    print("Average Wait %6.2f secs %3d tasks remaining." % (averageWait, printQueue.size()))
 
 
 def newPrintTask():
     num = random.randrange(1, 181)
-    return num == 180
+    if num == 180:
+        return True
+    else:
+        return False
 
 
 if __name__ == '__main__':
-    for _ in range(10):
+    for i in range(10):
         simulation(3600, 5)
 
 """
-Average Wait 116.24 secs   0 tasks remaining.
-Average Wait  33.70 secs   1 tasks remaining.
-Average Wait  57.60 secs   0 tasks remaining.
-Average Wait 484.52 secs   0 tasks remaining.
-Average Wait 106.21 secs   0 tasks remaining.
-Average Wait  56.63 secs   1 tasks remaining.
-Average Wait  28.00 secs   0 tasks remaining.
-Average Wait  23.82 secs   3 tasks remaining.
-Average Wait  57.78 secs   0 tasks remaining.
-Average Wait  47.44 secs   0 tasks remaining.
+Average Wait  48.79 secs   1 tasks remaining.
+Average Wait 106.31 secs   3 tasks remaining.
+Average Wait 186.12 secs   2 tasks remaining.
+Average Wait 110.62 secs   0 tasks remaining.
+Average Wait 110.00 secs   2 tasks remaining.
+Average Wait 209.67 secs   7 tasks remaining.
+Average Wait  78.00 secs   0 tasks remaining.
+Average Wait 295.88 secs   0 tasks remaining.
+Average Wait 120.29 secs   0 tasks remaining.
+Average Wait 700.04 secs   7 tasks remaining.
 """
