@@ -4,35 +4,28 @@ def quicksort(alist):
 
 def quicksortHelper(alist, first, last):
     if first < last:
-        splitpoint = partition(alist, first, last)
-        quicksortHelper(alist, first, splitpoint - 1)
-        quicksortHelper(alist, splitpoint + 1, last)
+        pivot_value = alist[first]
+        leftmark = first + 1
+        rightmark = last
+        done = False
 
+        while not done:
 
-def partition(alist, first, last):
-    pivot_value = alist[first]
+            while leftmark <= rightmark and alist[leftmark] <= pivot_value:
+                leftmark += 1
 
-    leftmark = first + 1
-    rightmark = last
+            while leftmark <= rightmark and alist[rightmark] >= pivot_value:
+                rightmark -= 1
 
-    done = False
+            if rightmark < leftmark:
+                done = True
+            else:
+                alist[leftmark], alist[rightmark] = alist[rightmark], alist[leftmark]
 
-    while not done:
+        alist[first], alist[rightmark] = alist[rightmark], alist[first]
 
-        while leftmark <= rightmark and alist[leftmark] <= pivot_value:
-            leftmark += 1
-
-        while alist[rightmark] >= pivot_value and rightmark >= leftmark:
-            rightmark -= 1
-
-        if rightmark < leftmark:
-            done = True
-        else:
-            alist[leftmark], alist[rightmark] = alist[rightmark], alist[leftmark]
-
-    alist[first], alist[rightmark] = alist[rightmark], alist[first]
-
-    return rightmark
+        quicksortHelper(alist, first, rightmark - 1)
+        quicksortHelper(alist, rightmark + 1, last)
 
 
 if __name__ == '__main__':
