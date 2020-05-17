@@ -24,6 +24,7 @@ def recDc(coinValueList, change, knownResults):
 
 if __name__ == '__main__':
     start = time.time()
+    # 这里因为需要求数字是 63 美分的最小零钱个数，因而初始化一个 64 位的 0 数组进行初始化，后面用于记忆对应位置的最小零钱个数
     print(recDc([1, 5, 10, 25], 63, [0] * 64))
     print(time.time() - start)
 
