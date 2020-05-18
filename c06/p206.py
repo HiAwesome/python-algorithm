@@ -68,6 +68,17 @@ def postorder_evaluate(tree: BinaryTree):
             return tree.getRootVal()
 
 
+def print_exp(tree: BinaryTree):
+    sVal = ''
+
+    if tree:
+        sVal = '(' + print_exp(tree.getLeftChild())
+        sVal += str(tree.getRootVal())
+        sVal += print_exp(tree.getRightChild()) + ')'
+
+    return sVal
+
+
 if __name__ == '__main__':
     # 需要空格夹杂以备切割，如果去掉此操作则多位数解析为多个单位数，会出错
     pt = buildParseTree('( ( 10 + 5 ) * 3 )')
@@ -79,6 +90,9 @@ if __name__ == '__main__':
     print()
     print('用后序遍历的方法计算结果： %d' % postorder_evaluate(pt))
 
+    print()
+    print('用中序遍历的方法打印表达式： %s' % print_exp(pt))
+
 """
 10
 5
@@ -89,4 +103,6 @@ if __name__ == '__main__':
 result is 45
 
 用后序遍历的方法计算结果： 45
+
+用中序遍历的方法打印表达式： (((10)+(5))*(3))
 """
