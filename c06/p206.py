@@ -33,7 +33,7 @@ def buildParseTree(fpexp):
     return eTree
 
 
-def evaluate(parseTree):
+def evaluate(parseTree: BinaryTree):
     opers = {
         '+': operator.add,
         '-': operator.sub,
@@ -51,6 +51,23 @@ def evaluate(parseTree):
         return parseTree.getRootVal()
 
 
+def postorder_evaluate(tree: BinaryTree):
+    opers = {
+        '+': operator.add,
+        '-': operator.sub,
+        '*': operator.mul,
+        '/': operator.truediv
+    }
+
+    if tree:
+        res1 = postorder_evaluate(tree.getLeftChild())
+        res2 = postorder_evaluate(tree.getRightChild())
+        if res1 and res2:
+            return opers[tree.getRootVal()](res1, res2)
+        else:
+            return tree.getRootVal()
+
+
 if __name__ == '__main__':
     # 需要空格夹杂以备切割，如果去掉此操作则多位数解析为多个单位数，会出错
     pt = buildParseTree('( ( 10 + 5 ) * 3 )')
@@ -58,6 +75,10 @@ if __name__ == '__main__':
 
     print()
     print('result is %d' % evaluate(pt))
+
+    print()
+    print('用后序遍历的方法计算结果： %d' % postorder_evaluate(pt))
+
 """
 10
 5
@@ -66,4 +87,6 @@ if __name__ == '__main__':
 *
 
 result is 45
+
+用后序遍历的方法计算结果： 45
 """
