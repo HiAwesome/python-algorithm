@@ -32,7 +32,7 @@ def buildParseTree(fpexp):
 
 
 if __name__ == '__main__':
-    # 需要空格夹杂以备切割
+    # 需要空格夹杂以备切割，如果去掉此操作则多位数解析为多个单位数，会出错
     pt = buildParseTree('( ( 10 + 5 ) * 3 )')
     pt.postorder()
 
