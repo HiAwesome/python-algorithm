@@ -13,4 +13,13 @@
 如果我们可以排序一次然后搜索许多次，排序开销并不那么显著。\
 然而，对于大列表，哪怕是一次排序的消耗也可能是巨大的，从一开始简单执行顺序搜索也许是最好的选择。
 
+## 元组和列表的效率差异
+
+参考 [Are tuples more efficient than lists in Python?](https://stackoverflow.com/questions/68630/are-tuples-more-efficient-than-lists-in-python) 和 [Why is tuple faster than list in Python?](https://stackoverflow.com/questions/3340539/why-is-tuple-faster-than-list-in-python) 得出结论： 
+元组的性能往往比几乎每个类别中的列表都要好：
+
+1. 元组可以恒定折叠。
+2. 元组可以重复使用而不是复制。
+3. 元组是紧凑的，并且不会过度分配。
+4. 元组直接引用其元素。
 
