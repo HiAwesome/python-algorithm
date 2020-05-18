@@ -69,12 +69,17 @@ def postorder_evaluate(tree: BinaryTree):
 
 
 def print_exp(tree: BinaryTree):
+    # 优化后的方法，去掉每个数字的左右括号
     sVal = ''
 
     if tree:
-        sVal = '(' + print_exp(tree.getLeftChild())
-        sVal += str(tree.getRootVal())
-        sVal += print_exp(tree.getRightChild()) + ')'
+        str_val = str(tree.getRootVal())
+        result = print_exp(tree.getLeftChild()) + str_val + print_exp(tree.getRightChild())
+
+        if str_val.isnumeric():
+            sVal = result
+        else:
+            sVal = '(' + result + ')'
 
     return sVal
 
@@ -104,5 +109,5 @@ result is 45
 
 用后序遍历的方法计算结果： 45
 
-用中序遍历的方法打印表达式： (((10)+(5))*(3))
+用中序遍历的方法打印表达式： ((10+5)*3)
 """
