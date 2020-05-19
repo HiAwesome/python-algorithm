@@ -216,6 +216,33 @@ class BinarySearchTree:
                                                 currentNode.rightChild.leftChild,
                                                 currentNode.rightChild.rightChild)
 
+    def inorder(self):
+        self._inorder(self.root)
+
+    def _inorder(self, root: TreeNode):
+        if root is not None:
+            self._inorder(root.leftChild)
+            print(root.key)
+            self._inorder(root.rightChild)
+
+    def postorder(self):
+        self._postorder(self.root)
+
+    def _postorder(self, root: TreeNode):
+        if not root:
+            self._postorder(root.leftChild)
+            self._postorder(root.rightChild)
+            print(root.key)
+
+    def preorder(self):
+        self._perorder(self.root)
+
+    def _preorder(self, root):
+        if not root:
+            print(root.key)
+            self._preorder(root.leftChild)
+            self._preorder(root.rightChild)
+
 
 if __name__ == '__main__':
     mytree = BinarySearchTree()
