@@ -6,6 +6,8 @@ class TreeNode:
         self.leftChild: TreeNode = left
         self.rightChild: TreeNode = right
         self.parent: TreeNode = parent
+        # 需要演示 AVL 树时加上此成员变量
+        self.balanceFactor = 0
 
     def hasLeftChild(self):
         return self.leftChild
