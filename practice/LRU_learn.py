@@ -1,6 +1,6 @@
 """
 LRU Cache 的实现
-https://www.jianshu.com/p/e41ec08e4aa6
+https://www.geeksforgeeks.org/lru-cache-in-python-using-ordereddict/
 为什么Python 3.6以后字典有序并且效率更高？
 https://www.cnblogs.com/xieqiankun/p/python_dict.html
 但还是依然要使用 OrderedDict，因为 popitem 接受参数 last，而默认的 Dict 不接受
@@ -15,20 +15,17 @@ class LRUCache:
         self.dict = OrderedDict()
 
     def set(self, key, value):
-        if key in self.dict:
-            self.dict.pop(key)
-        if self.size == len(self.dict):
+        self.dict[key] = value
+        self.dict.move_to_end(key)
+        if len(self.dict) > self.size:
             self.dict.popitem(last=False)
-        self.dict.update({key: value})
 
     def get(self, key):
-        if key in self.dict:
-            value = self.dict.pop(key)
-            self.dict.update({key: value})
+        if key not in self.dict:
+            return -1
         else:
-            value = -1
-
-        return value
+            self.dict.move_to_end(key)
+            return self.dict[key]
 
 
 if __name__ == '__main__':
@@ -37,13 +34,13 @@ if __name__ == '__main__':
     lru.set(2, 2)
     lru.set(3, 3)
     print(lru.dict)
-    lru.get(100)
+    lru.get(1)
     print(lru.dict)
     lru.set(4, 4)
     print(lru.dict)
 
 """
 OrderedDict([(1, 1), (2, 2), (3, 3)])
-OrderedDict([(1, 1), (2, 2), (3, 3)])
-OrderedDict([(2, 2), (3, 3), (4, 4)])
+OrderedDict([(2, 2), (3, 3), (1, 1)])
+OrderedDict([(3, 3), (1, 1), (4, 4)])
 """
