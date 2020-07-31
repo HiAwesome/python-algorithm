@@ -1,17 +1,16 @@
 def binary_search(a_list, item):
-    first = 0
-    last = len(a_list) - 1
+    left, right = 0, len(a_list) - 1
     found = False
 
-    while first <= last and not found:
-        mid = (first + last) // 2
+    while left <= right and not found:
+        mid = left + (right - left) // 2
 
         if a_list[mid] == item:
             found = True
         elif a_list[mid] < item:
-            first = mid + 1
+            left = mid + 1
         else:
-            last = mid - 1
+            right = mid - 1
 
     return found
 
