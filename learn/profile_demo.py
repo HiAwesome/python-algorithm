@@ -1,3 +1,13 @@
+"""
+https://docs.python.org/3/library/profile.html
+练习 Python 性能测试
+
+来源 blog: https://yifei.me/note/612/
+使用 cProfile 和火焰图调优 Python 程序性能
+
+作用：碰到 Python 性能平静下来时作为参考
+"""
+
 import cProfile
 # noinspection PyUnresolvedReferences
 import re
@@ -5,7 +15,6 @@ import re
 cProfile.run('re.compile("foo|bar")')
 
 """
-/usr/local/bin/python3 /Users/moqi/Code/python-algorithm/profile_learn/profile_01.py
          214 function calls (207 primitive calls) in 0.000 seconds
 
    Ordered by: standard name
@@ -54,9 +63,5 @@ cProfile.run('re.compile("foo|bar")')
         1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
         5    0.000    0.000    0.000    0.000 {method 'find' of 'bytearray' objects}
         1    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
-
-
-
-Process finished with exit code 0
 
 """
