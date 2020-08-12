@@ -70,16 +70,16 @@ def inorderTraversal(root: TreeNode) -> List[int]:
     stack, res = [root], []
 
     while stack:
-        curr = stack.pop()
-        if not curr:
-            curr = stack.pop()
-            res.append(curr.val)
+        cur = stack.pop()
+        if not cur:
+            cur = stack.pop()
+            res.append(cur.val)
         else:
-            stack.append(curr)
+            stack.append(cur)
             stack.append(None)
-            if curr.right:
-                stack.append(curr.right)
-            if curr.left:
-                stack.append(curr.left)
+            if cur.right:
+                stack.append(cur.right)
+            if cur.left:
+                stack.append(cur.left)
 
     return res
