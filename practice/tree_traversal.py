@@ -13,7 +13,7 @@ def preorderTraversalRecursion(root: TreeNode) -> List[int]:
 
 
 # 前序遍历 迭代
-def inorderTraversal(root: TreeNode) -> List[int]:
+def preorderTraversal(root: TreeNode) -> List[int]:
     if not root:
         return []
 
@@ -63,7 +63,7 @@ def postorderTraversalRecursion(root: TreeNode) -> List[int]:
 
 
 # 后序遍历 迭代
-def inorderTraversal(root: TreeNode) -> List[int]:
+def postorderTraversal(root: TreeNode) -> List[int]:
     if root is None:
         return []
 
