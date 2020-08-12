@@ -15,22 +15,24 @@ class TreeNode:
 
 
 class Solution:
-    def numSquares(self, n: int) -> int:
-        square_nums = [i * i for i in range(0, int(math.sqrt(n)) + 1)]
+    def findTargetSumWays(self, nums: List[int], S: int) -> int:
+        sum1 = sum(nums)
+        all_sum = sum1 + S
 
-        dp = [float('inf')] * (n + 1)
-        dp[0] = 0
+        if sum1 < S or all_sum % 2 == 1:
+            return 0
 
-        for i in range(1, n + 1):
-            for square in square_nums:
-                if i < square:
-                    break
-                else:
-                    dp[i] = min(dp[i], dp[i - square] + 1)
+        p = all_sum // 2
 
-        return int(dp[-1])
+        dp = [1] + [0 for _ in range(p)]
+
+        for num in nums:
+            for j in range(p, num - 1, -1):
+                dp[j] += dp[j - num]
+
+        return dp[p]
 
 
 if __name__ == '__main__':
     s = Solution()
-    print(s.numSquares(12))
+    print(s.findTargetSumWays([1, 1, 1, 1, 1], 3))
