@@ -1,5 +1,6 @@
+from collections import deque
 from typing import List
-import math
+
 
 class ListNode:
     def __init__(self, x):
@@ -15,24 +16,26 @@ class TreeNode:
 
 
 class Solution:
-    def findTargetSumWays(self, nums: List[int], S: int) -> int:
-        sum1 = sum(nums)
-        all_sum = sum1 + S
+    def updateMatrix(self, matrix: List[List[int]]) -> List[List[int]]:
+        m, n = len(matrix), len(matrix[0])
+        dist = [[0] * n for _ in range(m)]
 
-        if sum1 < S or all_sum % 2 == 1:
-            return 0
+        zeroes_pos = [(i, j) for i in range(m) for j in range(n) if matrix[i][j] == 0]
 
-        p = all_sum // 2
+        q = deque(zeroes_pos)
+        visited = set(q)
 
-        dp = [1] + [0 for _ in range(p)]
+        while q:
+            i, j = q.popleft()
+            for ni, nj in ((i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)):
+                if 0 <= ni < m and 0 <= nj < n and (ni, nj) not in visited:
+                    dist[ni][nj] = dist[i][j] + 1
+                    q.append((ni, nj))
+                    visited.add((ni, nj))
 
-        for num in nums:
-            for j in range(p, num - 1, -1):
-                dp[j] += dp[j - num]
-
-        return dp[p]
+        return dist
 
 
 if __name__ == '__main__':
     s = Solution()
-    print(s.findTargetSumWays([1, 1, 1, 1, 1], 3))
+    print(s.floodFill([[0, 0, 0], [0, 1, 1]], 1, 1, 1))
