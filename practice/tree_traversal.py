@@ -72,15 +72,15 @@ def postorderTraversal(root: TreeNode) -> List[int]:
 
     while stack:
         cur = stack.pop()
-        if not cur:
-            cur = stack.pop()
-            res.append(cur.val)
-        else:
+        if cur:
             stack.append(cur)
             stack.append(None)
             if cur.right:
                 stack.append(cur.right)
             if cur.left:
                 stack.append(cur.left)
+        else:
+            cur = stack.pop()
+            res.append(cur.val)
 
     return res
