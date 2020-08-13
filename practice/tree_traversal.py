@@ -22,6 +22,7 @@ def preorderTraversal(root: TreeNode) -> List[int]:
     while stack:
         cur = stack.pop()
         res.append(cur.val)
+        # 顺序：先添加右节点，再添加左节点
         if cur.right:
             stack.append(cur.right)
         if cur.left:
