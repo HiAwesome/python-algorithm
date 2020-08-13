@@ -16,24 +16,35 @@ class TreeNode:
 
 
 class Solution:
-    def updateMatrix(self, matrix: List[List[int]]) -> List[List[int]]:
-        m, n = len(matrix), len(matrix[0])
-        dist = [[0] * n for _ in range(m)]
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        def myBuildTree(preorder_left, preorder_right, inorder_left, inorder_right):
+            if preorder_left > preorder_right:
+                return None
 
-        zeroes_pos = [(i, j) for i in range(m) for j in range(n) if matrix[i][j] == 0]
+            # 前序遍历中的第一个节点就是根节点
+            preorder_root = preorder_left
+            # 在中序遍历中定位根节点
+            inorder_root = index[preorder[preorder_root]]
 
-        q = deque(zeroes_pos)
-        visited = set(q)
+            # 先把根节点建立出来
+            root = TreeNode(preorder[preorder_root])
+            # 得到左子树中的节点数目
+            size_left_subtree = inorder_root - inorder_left
+            # 递归地构造左子树，并连接到根节点
+            # 先序遍历中「从 左边界+1 开始的 size_left_subtree」个元素就对应了中序遍历中「从 左边界 开始到 根节点定位-1」的元素
+            root.left = myBuildTree(preorder_left + 1, preorder_left + size_left_subtree, inorder_left,
+                                    inorder_root - 1)
+            # 递归地构造右子树，并连接到根节点
+            # 先序遍历中「从 左边界+1+左子树节点数目 开始到 右边界」的元素就对应了中序遍历中「从 根节点定位+1 到 右边界」的元素
+            root.right = myBuildTree(preorder_left + size_left_subtree + 1, preorder_right, inorder_root + 1,
+                                     inorder_right)
+            return root
 
-        while q:
-            i, j = q.popleft()
-            for ni, nj in ((i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)):
-                if 0 <= ni < m and 0 <= nj < n and (ni, nj) not in visited:
-                    dist[ni][nj] = dist[i][j] + 1
-                    q.append((ni, nj))
-                    visited.add((ni, nj))
+        n = len(preorder)
+        # 构造哈希映射，帮助我们快速定位根节点
+        index = {element: i for i, element in enumerate(inorder)}
+        return myBuildTree(0, n - 1, 0, n - 1)
 
-        return dist
 
 
 if __name__ == '__main__':
