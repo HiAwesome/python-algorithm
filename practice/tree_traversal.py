@@ -65,7 +65,7 @@ def postorderTraversalRecursion(root: TreeNode) -> List[int]:
 
 # 后序遍历 迭代
 def postorderTraversal(root: TreeNode) -> List[int]:
-    if root is None:
+    if not root:
         return []
 
     stack, res = [root], []
