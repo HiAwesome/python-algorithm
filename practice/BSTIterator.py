@@ -55,4 +55,5 @@ class BSTIteratorB:
         """
         @return whether we have a next smallest number
         """
-        return not self.stack
+        return len(self.stack) > 0
+
