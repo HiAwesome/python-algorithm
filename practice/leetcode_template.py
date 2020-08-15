@@ -1,4 +1,3 @@
-from collections import deque
 from typing import List
 
 
@@ -15,26 +14,34 @@ class TreeNode:
         self.right = None
 
 
+from sortedcontainers import SortedSet
+
+
 class Solution:
-    def isValidBST(self, root: TreeNode) -> bool:
-        stack, inorder_before = [], float('-inf')
+    def containsNearbyAlmostDuplicate(self, nums: List[int], k: int, t: int) -> bool:
+        sorted_set = SortedSet()
 
-        while stack or root:
-            while root:
-                stack.append(root)
-                root = root.left
+        for i in range(len(nums)):
+            num = nums[i]
 
-            root = stack.pop()
-            if root.val <= inorder_before:
-                return False
+            # find the successor of current element
+            if sorted_set and sorted_set.bisect_left(num) < len(sorted_set):
+                if sorted_set[sorted_set.bisect_left(num)] <= num + t:
+                    return True
 
-            inorder_before = root.val
-            root = root.right
+            # find the predecessor of current element
+            if sorted_set and sorted_set.bisect_left(num) != 0:
+                if num <= sorted_set[sorted_set.bisect_left(num) - 1] + t:
+                    return True
 
-        return True
+            sorted_set.add(num)
+            if len(sorted_set) > k:
+                sorted_set.remove(nums[i - k])
 
+        return False
 
 
 if __name__ == '__main__':
     s = Solution()
-    print(s.floodFill([[0, 0, 0], [0, 1, 1]], 1, 1, 1))
+    # print(s.containsNearbyAlmostDuplicate([1, 2, 3, 1], 3, 0))
+    print(s.containsNearbyAlmostDuplicate([1, 5, 9, 1, 5, 9], 2, 3))
