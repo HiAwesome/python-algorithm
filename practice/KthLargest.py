@@ -3,6 +3,14 @@ https://leetcode-cn.com/problems/kth-largest-element-in-a-stream/solution/python
 """
 
 
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+        self.count = 1
+
+
 class KthLargest:
     def __init__(self, k: int, nums: List[int]):
         self.root = None
