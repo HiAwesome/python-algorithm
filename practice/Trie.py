@@ -66,7 +66,8 @@ class Trie:
         t = self.trie
 
         for c in word:
-            if c not in t: return False
+            if c not in t:
+                return False
             t = t[c]
 
         return "-" in t
@@ -75,7 +76,8 @@ class Trie:
         t = self.trie
 
         for c in prefix:
-            if c not in t: return False
+            if c not in t:
+                return False
             t = t[c]
 
         return True
