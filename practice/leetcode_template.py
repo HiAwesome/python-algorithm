@@ -15,31 +15,20 @@ class TreeNode:
 
 
 class Solution:
-    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        if not nums1 or not nums2:
-            return []
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        first_zero_index = 0
 
-        nums1.sort()
-        nums2.sort()
+        for i in range(len(nums)):
+            if nums[i] != 0:
+                nums[i], nums[first_zero_index] = nums[first_zero_index], nums[i]
+                first_zero_index += 1
 
-        n1 = len(nums1)
-        n2 = len(nums2)
-        i1, i2 = 0, 0
-        res = []
 
-        while i1 < n1 and i2 < n2:
-            if nums1[i1] > nums2[i2]:
-                i2 += 1
-            elif nums1[i1] < nums2[i2]:
-                i1 += 1
-            else:
-                res.append(nums1[i1])
-                i1 += 1
-                i2 += 1
-
-        return res
 
 
 if __name__ == '__main__':
     s = Solution()
-    print(s.intersect([1, 2, 2, 1], [2, 2]))
+    print(s.moveZeroes([0, 1, 0, 3, 12]))
