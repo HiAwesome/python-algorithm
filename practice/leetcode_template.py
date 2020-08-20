@@ -1,6 +1,6 @@
-import unittest
 # noinspection PyUnresolvedReferences
 import re
+import unittest
 # noinspection PyUnresolvedReferences
 from collections import deque
 # noinspection PyUnresolvedReferences
@@ -21,35 +21,28 @@ class TreeNode:
 
 
 class Solution:
-    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
-        """
-        Do not return anything, modify nums1 in-place instead.
-        """
-        i1, i2, i = m - 1, n - 1, m + n - 1
+    def rob(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
 
-        while i1 >= 0 and i2 >= 0:
-            if nums1[i1] > nums2[i2]:
-                nums1[i] = nums1[i1]
-                i1 -= 1
-            else:
-                nums1[i] = nums2[i2]
-                i2 -= 1
-            i -= 1
+        n = len(nums)
+        if n == 1:
+            return nums[0]
 
-        nums1[:i2 + 1] = nums2[:i2 + 1]
+        dp = [0] * n
+        dp[0] = nums[0]
+        dp[1] = max(nums[0], nums[1])
+        for i in range(2, n):
+            dp[i] = max(dp[i - 2] + nums[i], dp[i - 1])
 
-
-
-
-
-
+        return dp[n - 1]
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().merge
+    method = Solution().rob
 
     def test_1(self):
-        self.assertEqual(self.method([1,2,3,0,0,0], 3, [2,5,6], 3), [1,2,2,3,5,6])
+        self.assertEqual(self.method([2, 7, 9, 3, 1]), 12)
 
     # def test_2(self):
     #     self.assertEqual(self.method(["dog","racecar","car"]), "")
