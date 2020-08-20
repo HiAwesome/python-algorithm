@@ -1,4 +1,10 @@
 import unittest
+# noinspection PyUnresolvedReferences
+import re
+# noinspection PyUnresolvedReferences
+import collections
+# noinspection PyUnresolvedReferences
+from typing import List
 
 
 class ListNode:
@@ -15,8 +21,13 @@ class TreeNode:
 
 
 class Solution:
-    def myAtoi(self, str: str) -> int:
-        return 100
+    def myAtoi(self, s: str) -> int:
+        int_max, int_min = 2147483648, -2147483648
+        s = s.lstrip()
+        num_re = re.compile(r'^[+\-]?\d+')
+        num = num_re.findall(s)
+        num = int(*num)
+        return max(min(num, int_max), int_min)
 
 
 class TestSolution(unittest.TestCase):
