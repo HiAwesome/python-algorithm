@@ -1,4 +1,4 @@
-from typing import List
+import unittest
 
 
 class ListNode:
@@ -15,20 +15,28 @@ class TreeNode:
 
 
 class Solution:
-    def moveZeroes(self, nums: List[int]) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
-        first_zero_index = 0
-
-        for i in range(len(nums)):
-            if nums[i] != 0:
-                nums[i], nums[first_zero_index] = nums[first_zero_index], nums[i]
-                first_zero_index += 1
+    def myAtoi(self, str: str) -> int:
+        return 100
 
 
+class TestSolution(unittest.TestCase):
+    method = Solution().myAtoi
+
+    def test_1(self):
+        self.assertEqual(self.method('42'), 42)
+
+    def test_2(self):
+        self.assertEqual(self.method('   -42'), -42)
+
+    def test_3(self):
+        self.assertEqual(self.method('4193 with words'), 4193)
+
+    def test_4(self):
+        self.assertEqual(self.method('words and 987'), 0)
+
+    def test_5(self):
+        self.assertEqual(self.method('-91283472332'), -2147483648)
 
 
 if __name__ == '__main__':
-    s = Solution()
-    print(s.moveZeroes([0, 1, 0, 3, 12]))
+    unittest.main()
