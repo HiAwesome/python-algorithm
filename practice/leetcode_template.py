@@ -4,6 +4,8 @@ import unittest
 # noinspection PyUnresolvedReferences
 from collections import deque
 # noinspection PyUnresolvedReferences
+from random import shuffle
+# noinspection PyUnresolvedReferences
 from typing import List
 
 
@@ -21,28 +23,21 @@ class TreeNode:
 
 
 class Solution:
-    def rob(self, nums: List[int]) -> int:
-        if not nums:
-            return 0
+    def isPowerOfThree(self, n: int) -> bool:
+        if not n:
+            return False
 
-        n = len(nums)
-        if n == 1:
-            return nums[0]
+        while n % 3 == 0:
+            n //=  3
 
-        dp = [0] * n
-        dp[0] = nums[0]
-        dp[1] = max(nums[0], nums[1])
-        for i in range(2, n):
-            dp[i] = max(dp[i - 2] + nums[i], dp[i - 1])
-
-        return dp[n - 1]
+        return n == 1
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().rob
+    method = Solution().isPowerOfThree
 
     def test_1(self):
-        self.assertEqual(self.method([2, 7, 9, 3, 1]), 12)
+        self.assertEqual(self.method(45), False)
 
     # def test_2(self):
     #     self.assertEqual(self.method(["dog","racecar","car"]), "")
