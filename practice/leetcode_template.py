@@ -23,21 +23,28 @@ class TreeNode:
 
 
 class Solution:
-    def isPowerOfThree(self, n: int) -> bool:
-        if not n:
-            return False
+    def maxCoins(self, piles: List[int]) -> int:
+        piles.sort()
+        print(piles)
+        n = len(piles)
 
-        while n % 3 == 0:
-            n //=  3
+        l, r = 0, n - 1
+        res = 0
 
-        return n == 1
+        while l < r:
+            res += piles[r - 1]
+            l += 1
+            r -= 2
+
+        return res
+
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().isPowerOfThree
+    method = Solution().maxCoins
 
     def test_1(self):
-        self.assertEqual(self.method(45), False)
+        self.assertEqual(self.method([2, 4, 1, 2, 7, 8]), 9)
 
     # def test_2(self):
     #     self.assertEqual(self.method(["dog","racecar","car"]), "")
