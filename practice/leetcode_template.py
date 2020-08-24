@@ -25,35 +25,38 @@ class TreeNode:
 
 
 class Solution:
-    def longestPalindrome(self, s: str) -> str:
-        n = len(s)
+    def numIslands(self, grid: List[List[str]]) -> int:
+        m, n = len(grid), len(grid[0])
+        visited = [[True for _ in range(n)] for _ in range(m)]
 
-        def helper(l, r):
-            while l >= 0 and r < n and s[l] == s[r]:
-                l -= 1
-                r += 1
-            return l + 1, r - 1
+        def bfs(i, j):
+            grid[i][j] = '0'
+            visited[i][j] = False
+            for (ni, nj) in ((i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)):
+                if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] == '1' and visited[ni][nj]:
+                    bfs(ni, nj)
 
-        start = end = 0
-        for i in range(n):
-            l1, r1 = helper(i, i)
-            if r1 - l1 > end - start:
-                start, end = l1, r1
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == '1':
+                    res += 1
+                    bfs(i, j)
 
-            l2, r2 = helper(i, i + 1)
-            if r2 - l2 > end - start:
-                start, end = l2, r2
-
-        return s[start:end - 1]
-
-
+        return res
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().longestPalindrome
+    method = Solution().numIslands
 
     def test_1(self):
-        self.assertEqual(self.method('ababa'), 'aba')
+        self.assertEqual(self.method([
+            ['1', '1', '0', '0', '0'],
+            ['1', '1', '0', '0', '0'],
+            ['0', '0', '1', '0', '0'],
+            ['0', '0', '0', '1', '1']
+        ]
+        ), 3)
 
     # def test_2(self):
     #     self.assertEqual(self.method(["dog","racecar","car"]), "")
