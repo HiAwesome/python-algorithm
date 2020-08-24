@@ -23,28 +23,18 @@ class TreeNode:
 
 
 class Solution:
-    def maxCoins(self, piles: List[int]) -> int:
-        piles.sort()
-        print(piles)
-        n = len(piles)
-
-        l, r = 0, n - 1
-        res = 0
-
-        while l < r:
-            res += piles[r - 1]
-            l += 1
-            r -= 2
-
-        return res
-
+    def repeatedSubstringPattern(self, s: str) -> bool:
+        s2 = (s + s)
+        n = len(s)
+        find = s2.find(s, 1)
+        return find != n
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().maxCoins
+    method = Solution().repeatedSubstringPattern
 
     def test_1(self):
-        self.assertEqual(self.method([2, 4, 1, 2, 7, 8]), 9)
+        self.assertEqual(self.method('aba'), False)
 
     # def test_2(self):
     #     self.assertEqual(self.method(["dog","racecar","car"]), "")
