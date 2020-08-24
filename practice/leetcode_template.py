@@ -2,6 +2,8 @@
 import re
 import unittest
 # noinspection PyUnresolvedReferences
+from collections import defaultdict
+# noinspection PyUnresolvedReferences
 from collections import deque
 # noinspection PyUnresolvedReferences
 from random import shuffle
@@ -23,18 +25,35 @@ class TreeNode:
 
 
 class Solution:
-    def repeatedSubstringPattern(self, s: str) -> bool:
-        s2 = (s + s)
+    def longestPalindrome(self, s: str) -> str:
         n = len(s)
-        find = s2.find(s, 1)
-        return find != n
+
+        def helper(l, r):
+            while l >= 0 and r < n and s[l] == s[r]:
+                l -= 1
+                r += 1
+            return l + 1, r - 1
+
+        start = end = 0
+        for i in range(n):
+            l1, r1 = helper(i, i)
+            if r1 - l1 > end - start:
+                start, end = l1, r1
+
+            l2, r2 = helper(i, i + 1)
+            if r2 - l2 > end - start:
+                start, end = l2, r2
+
+        return s[start:end - 1]
+
+
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().repeatedSubstringPattern
+    method = Solution().longestPalindrome
 
     def test_1(self):
-        self.assertEqual(self.method('aba'), False)
+        self.assertEqual(self.method('ababa'), 'aba')
 
     # def test_2(self):
     #     self.assertEqual(self.method(["dog","racecar","car"]), "")
