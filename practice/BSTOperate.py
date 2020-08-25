@@ -73,7 +73,7 @@ class Solution:
         elif key < root.val:
             root.left = self.deleteNode(root.left, key)
         else:
-            if not (root.left or root.right):
+            if not root.left and not root.right:
                 root = None
             elif root.right:
                 root.val = self.successor(root)
