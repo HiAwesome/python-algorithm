@@ -15,21 +15,29 @@ class Solution:
         if not head or not head.next:
             return head
 
-        slow, fast = head, head.next
+        fast = head.next
+        slow = head
 
         while fast and fast.next:
-            fast, slow = fast.next.next, slow.next
+            fast = fast.next.next
+            slow = slow.next
 
-        mid, slow.next = slow.next, None
-        left, right = self.sortList(head), self.sortList(mid)
-        new_head = res = ListNode(0)
+        mid = slow.next
+        slow.next = None
+        left = self.sortList(head)
+        right = self.sortList(mid)
+        dummy = res = ListNode(0)
 
         while left and right:
-            if left.val < right.val:
-                new_head.next, left = left, left.next
-            else:
-                new_head.next, right = right, right.next
-            new_head = new_head.next
 
-        new_head.next = left if left else right
+            if left.val < right.val:
+                dummy.next = left
+                left = left.next
+            else:
+                dummy.next = right
+                right = right.next
+
+            dummy = dummy.next
+
+        dummy.next = left if left else right
         return res.next
