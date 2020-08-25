@@ -1,4 +1,9 @@
-# https://leetcode-cn.com/problems/design-hashmap/solution/she-ji-ha-xi-biao-by-leetcode/
+"""
+设计哈希表
+https://leetcode-cn.com/problems/design-hashmap/
+"""
+
+
 class Bucket:
     def __init__(self):
         self.bucket = []
@@ -28,10 +33,6 @@ class Bucket:
 
 class MyHashMap(object):
     def __init__(self):
-        """
-        初始化数据结构
-        """
-        # 最好使用质数，减少碰撞
         self.key_space = 2069
         self.hash_table = [Bucket() for _ in range(self.key_space)]
 
@@ -39,26 +40,10 @@ class MyHashMap(object):
         return key % self.key_space
 
     def put(self, key, value):
-        """
-        value will always be non-negative.
-        :param key: int
-        :param value: int
-        :return: None
-        """
         self.hash_table[self.__get_hash_key(key)].update(key, value)
 
     def get(self, key):
-        """
-        Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key
-        :param key: int
-        :return: int
-        """
         return self.hash_table[self.__get_hash_key(key)].get(key)
 
     def remove(self, key):
-        """
-        Remove the mapping of the specified value key if this map contains a mapping for the key
-        :param key: int
-        :return: None
-        """
         self.hash_table[self.__get_hash_key(key)].remove(key)

@@ -1,4 +1,9 @@
-# https://leetcode-cn.com/problems/design-hashset/solution/she-ji-ha-xi-ji-he-by-leetcode/
+"""
+设计哈希集合
+https://leetcode-cn.com/problems/design-hashset/
+"""
+
+
 class Node:
     def __init__(self, value, next_node=None):
         self.value = value
@@ -7,23 +12,19 @@ class Node:
 
 class Bucket:
     def __init__(self):
-        # a pseudo head
         self.head = Node(0)
 
     def exists(self, value):
         curr = self.head.next
         while curr:
             if curr.value == value:
-                # value existed already, do nothing
                 return True
             curr = curr.next
         return False
 
     def insert(self, new_value):
-        # if not existed, add the new element to the head
         if not self.exists(new_value):
             new_node = Node(new_value, self.head.next)
-            # set the new head
             self.head.next = new_node
 
     def delete(self, value):
@@ -31,7 +32,6 @@ class Bucket:
         curr = self.head.next
         while curr:
             if curr.value == value:
-                # remove the current node
                 prev.next = curr.next
                 return
             prev = curr
