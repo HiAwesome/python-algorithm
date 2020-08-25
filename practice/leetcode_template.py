@@ -25,38 +25,28 @@ class TreeNode:
 
 
 class Solution:
-    def numIslands(self, grid: List[List[str]]) -> int:
-        m, n = len(grid), len(grid[0])
-        visited = [[True for _ in range(n)] for _ in range(m)]
+    def permute(self, nums: List[int]) -> List[List[int]]:
 
-        def bfs(i, j):
-            grid[i][j] = '0'
-            visited[i][j] = False
-            for (ni, nj) in ((i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)):
-                if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] == '1' and visited[ni][nj]:
-                    bfs(ni, nj)
+        n = len(nums)
+        res = []
 
-        res = 0
-        for i in range(m):
-            for j in range(n):
-                if grid[i][j] == '1':
-                    res += 1
-                    bfs(i, j)
+        def backtrack(index):
+            if index == n:
+                res.append(nums[:])
+            for i in range(index, n):
+                nums[index], nums[i] = nums[i], nums[index]
+                backtrack(index + 1)
+                nums[index], nums[i] = nums[i], nums[index]
 
+        backtrack(0)
         return res
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().numIslands
+    method = Solution().permute
 
     def test_1(self):
-        self.assertEqual(self.method([
-            ['1', '1', '0', '0', '0'],
-            ['1', '1', '0', '0', '0'],
-            ['0', '0', '1', '0', '0'],
-            ['0', '0', '0', '1', '1']
-        ]
-        ), 3)
+        self.assertEqual(self.method([1, 2, 3]), [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 2, 1], [3, 1, 2]])
 
     # def test_2(self):
     #     self.assertEqual(self.method(["dog","racecar","car"]), "")
