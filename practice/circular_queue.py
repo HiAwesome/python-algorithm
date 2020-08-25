@@ -1,6 +1,8 @@
 """
-https://leetcode-cn.com/problems/design-circular-queue/solution/she-ji-xun-huan-dui-lie-by-leetcode/
+设计循环队列
+https://leetcode-cn.com/problems/design-circular-queue/
 """
+
 
 class MyCircularQueue:
 
@@ -26,7 +28,7 @@ class MyCircularQueue:
 
     def Front(self) -> int:
         if self.size == 0:
-            return  -1
+            return -1
         return self.queue[self.headIndex]
 
     def Rear(self) -> int:
