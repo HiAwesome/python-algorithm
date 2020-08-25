@@ -2,6 +2,14 @@
 https://leetcode-cn.com/problems/binary-search-tree-iterator/solution/er-cha-sou-suo-shu-die-dai-qi-by-leetcode/
 """
 
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
 # 中序遍历，初始化时完成遍历，空间复杂度 O(n)
 class BSTIteratorA:
 
@@ -30,6 +38,7 @@ class BSTIteratorA:
         """
         return self.index + 1 < len(self.node_array)
 
+
 # 中序遍历，受控递归，next 方法时不断更新元素，空间复杂度 O(h)
 class BSTIteratorB:
 
@@ -56,4 +65,3 @@ class BSTIteratorB:
         @return whether we have a next smallest number
         """
         return len(self.stack) > 0
-
