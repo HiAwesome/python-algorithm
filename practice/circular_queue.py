@@ -6,11 +6,11 @@ https://leetcode-cn.com/problems/design-circular-queue/
 
 class MyCircularQueue:
 
-    def __init__(self, capacity: int):
-        self.queue = [0] * capacity
+    def __init__(self, k: int):
+        self.queue = [0] * k
         self.headIndex = 0
         self.size = 0
-        self.capacity = capacity
+        self.capacity = k
 
     def enQueue(self, value: int) -> bool:
         if self.size == self.capacity:
