@@ -1,16 +1,24 @@
 """
 二叉搜索树的搜索，插入，删除
-https://leetcode-cn.com/problems/search-in-a-binary-search-tree/solution/er-cha-sou-suo-shu-zhong-de-sou-suo-by-leetcode/
-https://leetcode-cn.com/problems/insert-into-a-binary-search-tree/solution/er-cha-sou-suo-shu-zhong-de-cha-ru-cao-zuo-by-le-2/
-https://leetcode-cn.com/problems/delete-node-in-a-bst/solution/shan-chu-er-cha-sou-suo-shu-zhong-de-jie-dian-by-l/
+https://leetcode-cn.com/problems/search-in-a-binary-search-tree/
+https://leetcode-cn.com/problems/insert-into-a-binary-search-tree/
+https://leetcode-cn.com/problems/delete-node-in-a-bst/
 """
 
 
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
+# noinspection PyTypeChecker
 class Solution:
     # 递归搜索
     def searchBST(self, root: TreeNode, val: int) -> TreeNode:
         if root is None or val == root.val:
-            return root
+            return None
 
         if val < root.val:
             return self.searchBST(root.left, val)
