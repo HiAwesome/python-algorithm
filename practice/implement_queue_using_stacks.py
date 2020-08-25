@@ -24,13 +24,7 @@ class MyQueue:
         return self.out_stack.pop()
 
     def peek(self) -> int:
-        if self.out_stack:
-            return self.out_stack[-1]
-        else:
-            return self.front
+        return self.out_stack[-1] if self.out_stack else self.front
 
     def empty(self) -> bool:
-        if not self.in_stack and not self.out_stack:
-            return True
-        else:
-            return False
+        return not self.in_stack and not self.out_stack
