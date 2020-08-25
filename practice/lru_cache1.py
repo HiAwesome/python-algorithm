@@ -1,6 +1,7 @@
 """
-LRU Cache 的实现
-https://www.geeksforgeeks.org/lru-cache-in-python-using-ordereddict/
+LRU Cache
+https://leetcode-cn.com/problems/lru-cache/
+
 为什么Python 3.6以后字典有序并且效率更高？
 https://www.cnblogs.com/xieqiankun/p/python_dict.html
 但还是依然要使用 OrderedDict，因为 popitem 接受参数 last，而默认的 Dict 不接受
