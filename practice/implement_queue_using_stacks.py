@@ -1,6 +1,9 @@
 """
-https://leetcode-cn.com/problems/implement-queue-using-stacks/solution/yong-zhan-shi-xian-dui-lie-by-leetcode/
+用栈实现队列
+https://leetcode-cn.com/problems/implement-queue-using-stacks/
 """
+
+
 class MyQueue:
 
     def __init__(self):
