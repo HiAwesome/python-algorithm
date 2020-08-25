@@ -1,15 +1,12 @@
 """
-https://leetcode-cn.com/problems/min-stack/solution/zui-xiao-zhan-by-leetcode-solution/
+最小栈
+https://leetcode-cn.com/problems/min-stack/
 """
 
 
 class MinStack:
 
     def __init__(self):
-        """
-        initialize your data structure here.
-        容量永远相等，同增同减
-        """
         self.data_stack = []
         self.min_stack = []
 
