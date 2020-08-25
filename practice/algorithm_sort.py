@@ -2,69 +2,71 @@
 Python 实现经典排序算法：
 冒泡排序、选择排序、插入排序、希尔排序、归并排序、快速排序、堆排序
 http://wuchong.me/blog/2014/02/09/algorithm-sort-summary/
+
+力扣练手: https://leetcode-cn.com/problems/sort-an-array/
 '''
 
 
 # 冒泡排序
-def bubble_sort(array):
-    n = len(array)
+def bubble_sort(nums):
+    n = len(nums)
     for i in range(n):
         for j in range(1, n - i):
-            if array[j - 1] > array[j]:
-                array[j - 1], array[j] = array[j], array[j - 1]
-    return array
+            if nums[j - 1] > nums[j]:
+                nums[j - 1], nums[j] = nums[j], nums[j - 1]
+    return nums
 
 
 # 选择排序
-def select_sort(array):
-    n = len(array)
+def select_sort(nums):
+    n = len(nums)
     for i in range(n):
         min_index = i
         for j in range(i + 1, n):
-            if array[j] < array[min_index]:
+            if nums[j] < nums[min_index]:
                 min_index = j
-        array[min_index], array[i] = array[i], array[min_index]
-    return array
+        nums[min_index], nums[i] = nums[i], nums[min_index]
+    return nums
 
 
 # 插入排序
-def insert_sort(array):
-    n = len(array)
+def insert_sort(nums):
+    n = len(nums)
     for i in range(1, n):
-        if array[i] < array[i - 1]:
-            temp, index = array[i], i
+        if nums[i] < nums[i - 1]:
+            temp, index = nums[i], i
             for j in range(i - 1, -1, -1):
-                if array[j] > temp:
-                    array[j + 1], index = array[j], j
+                if nums[j] > temp:
+                    nums[j + 1], index = nums[j], j
                 else:
                     break
-            array[index] = temp
-    return array
+            nums[index] = temp
+    return nums
 
 
 # 希尔排序
-def shell_sort(array):
-    n = len(array)
+def shell_sort(nums):
+    n = len(nums)
     gap = n // 2
     while gap > 0:
         for i in range(gap, n):
-            temp = array[i]
+            temp = nums[i]
             j = i
-            while j >= gap and array[j - gap] > temp:
-                array[j] = array[j - gap]
+            while j >= gap and nums[j - gap] > temp:
+                nums[j] = nums[j - gap]
                 j -= gap
-            array[j] = temp
+            nums[j] = temp
         gap //= 2
-    return array
+    return nums
 
 
 # 归并排序
-def merge_sort(array):
-    if len(array) <= 1:
-        return array
-    num = len(array) // 2
-    left = merge_sort(array[:num])
-    right = merge_sort(array[num:])
+def merge_sort(nums):
+    if len(nums) <= 1:
+        return nums
+    num = len(nums) // 2
+    left = merge_sort(nums[:num])
+    right = merge_sort(nums[num:])
     return merge(left, right)
 
 
@@ -84,51 +86,51 @@ def merge(left, right):
 
 
 # 快速排序
-def quick_sort(array):
-    return qsort(array, 0, len(array) - 1)
+def quick_sort(nums):
+    return qsort(nums, 0, len(nums) - 1)
 
 
-def qsort(array, left, right):
+def qsort(nums, left, right):
     if left >= right:
-        return array
-    key = array[left]
+        return nums
+    key = nums[left]
     lp = left
     rp = right
     while lp < rp:
-        while array[rp] >= key and lp < rp:
+        while nums[rp] >= key and lp < rp:
             rp -= 1
-        while array[lp] <= key and lp < rp:
+        while nums[lp] <= key and lp < rp:
             lp += 1
-        array[lp], array[rp] = array[rp], array[lp]
+        nums[lp], nums[rp] = nums[rp], nums[lp]
 
-    array[left], array[rp] = array[rp], array[left]
-    qsort(array, left, lp - 1)
-    qsort(array, rp + 1, right)
-    return array
+    nums[left], nums[rp] = nums[rp], nums[left]
+    qsort(nums, left, lp - 1)
+    qsort(nums, rp + 1, right)
+    return nums
 
 
 # 堆排序
-def heap_sort(array):
-    n = len(array)
+def heap_sort(nums):
+    n = len(nums)
     first = n // 2 - 1
     for start in range(first, -1, -1):
-        max_heapify(array, start, n - 1)
+        max_heapify(nums, start, n - 1)
     for end in range(n - 1, 0, -1):
-        array[end], array[0] = array[0], array[end]
-        max_heapify(array, 0, end - 1)
-    return array
+        nums[end], nums[0] = nums[0], nums[end]
+        max_heapify(nums, 0, end - 1)
+    return nums
 
 
-def max_heapify(array, start, end):
+def max_heapify(nums, start, end):
     root = start
     while True:
         child = root * 2 + 1
         if child > end:
             break
-        if child + 1 <= end and array[child] < array[child + 1]:
+        if child + 1 <= end and nums[child] < nums[child + 1]:
             child = child + 1
-        if array[root] < array[child]:
-            array[root], array[child] = array[child], array[root]
+        if nums[root] < nums[child]:
+            nums[root], nums[child] = nums[child], nums[root]
             root = child
         else:
             break
