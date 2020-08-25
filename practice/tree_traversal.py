@@ -1,4 +1,12 @@
+"""
+二叉树的三种遍历方式
+https://leetcode-cn.com/problems/binary-tree-preorder-traversal/
+https://leetcode-cn.com/problems/binary-tree-inorder-traversal/
+https://leetcode-cn.com/problems/binary-tree-postorder-traversal/
+"""
 from typing import List
+
+
 class TreeNode:
     def __init__(self, x: int):
         self.val = x
@@ -7,14 +15,12 @@ class TreeNode:
 
 
 # 前序遍历 递归
-def preorderTraversalRecursion(root: TreeNode) -> List[int]:
-    if not root:
-        return []
-    return [root.val] + preorderTraversalRecursion(root.left) + preorderTraversalRecursion(root.right)
+def preR(root: TreeNode) -> List[int]:
+    return [root.val] + preR(root.left) + preR(root.right) if root else []
 
 
 # 前序遍历 迭代
-def preorderTraversal(root: TreeNode) -> List[int]:
+def pre(root: TreeNode) -> List[int]:
     if not root:
         return []
 
@@ -33,14 +39,12 @@ def preorderTraversal(root: TreeNode) -> List[int]:
 
 
 # 中序遍历 递归
-def inorderTraversalRecursion(root: TreeNode) -> List[int]:
-    if not root:
-        return []
-    return inorderTraversalRecursion(root.left) + [root.val] + inorderTraversalRecursion(root.right)
+def inR(root: TreeNode) -> List[int]:
+    return inR(root.left) + [root.val] + inR(root.right) if root else []
 
 
 # 中序遍历 迭代
-def inorderTraversal(root: TreeNode) -> List[int]:
+def ino(root: TreeNode) -> List[int]:
     if not root:
         return []
 
@@ -58,14 +62,12 @@ def inorderTraversal(root: TreeNode) -> List[int]:
 
 
 # 后序遍历 递归
-def postorderTraversalRecursion(root: TreeNode) -> List[int]:
-    if not root:
-        return []
-    return postorderTraversalRecursion(root.left) + postorderTraversalRecursion(root.right) + [root.val]
+def postR(root: TreeNode) -> List[int]:
+    return postR(root.left) + postR(root.right) + [root.val] if root else []
 
 
 # 后序遍历 迭代
-def postorderTraversal(root: TreeNode) -> List[int]:
+def post(root: TreeNode) -> List[int]:
     if not root:
         return []
 
