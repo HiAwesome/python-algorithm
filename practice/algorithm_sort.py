@@ -64,25 +64,25 @@ def shell_sort(nums):
 def merge_sort(nums):
     if len(nums) <= 1:
         return nums
-    num = len(nums) // 2
-    left = merge_sort(nums[:num])
-    right = merge_sort(nums[num:])
-    return merge(left, right)
+    mid = len(nums) // 2
+    l = merge_sort(nums[:mid])
+    r = merge_sort(nums[mid:])
+    return merge(l, r)
 
 
-def merge(left, right):
-    left_index, right_index = 0, 0
-    result = []
-    while left_index < len(left) and right_index < len(right):
-        if left[left_index] < right[right_index]:
-            result.append(left[left_index])
-            left_index += 1
+def merge(l, r):
+    li, ri = 0, 0
+    res = []
+    while li < len(l) and ri < len(r):
+        if l[li] < r[ri]:
+            res.append(l[li])
+            li += 1
         else:
-            result.append(right[right_index])
-            right_index += 1
-    result += left[left_index:]
-    result += right[right_index:]
-    return result
+            res.append(r[ri])
+            ri += 1
+    res += l[li:]
+    res += r[ri:]
+    return res
 
 
 # 快速排序
