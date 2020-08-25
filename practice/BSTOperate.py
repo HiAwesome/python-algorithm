@@ -18,7 +18,7 @@ class Solution:
     # 递归搜索
     def searchBST(self, root: TreeNode, val: int) -> TreeNode:
         if root is None or val == root.val:
-            return None
+            return root
 
         if val < root.val:
             return self.searchBST(root.left, val)
@@ -27,7 +27,7 @@ class Solution:
 
     # 迭代搜索
     def searchBST(self, root: TreeNode, val: int) -> TreeNode:
-        while root is not None and root.val != val:
+        while root and root.val != val:
             root = root.left if val < root.val else root.right
         return root
 
@@ -69,7 +69,7 @@ class Solution:
     # 递归删除
     def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
         if not root:
-            return None
+            return root
 
         # delete from the right subtree
         if key > root.val:
