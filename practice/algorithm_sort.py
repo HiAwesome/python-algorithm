@@ -90,22 +90,22 @@ def quick_sort(nums):
     return qsort(nums, 0, len(nums) - 1)
 
 
-def qsort(nums, left, right):
-    if left >= right:
+def qsort(nums, l, r):
+    if l >= r:
         return nums
-    key = nums[left]
-    lp = left
-    rp = right
-    while lp < rp:
-        while nums[rp] >= key and lp < rp:
-            rp -= 1
-        while nums[lp] <= key and lp < rp:
-            lp += 1
-        nums[lp], nums[rp] = nums[rp], nums[lp]
+    key = nums[l]
+    li = l
+    ri = r
+    while li < ri:
+        while nums[ri] >= key and li < ri:
+            ri -= 1
+        while nums[li] <= key and li < ri:
+            li += 1
+        nums[li], nums[ri] = nums[ri], nums[li]
 
-    nums[left], nums[rp] = nums[rp], nums[left]
-    qsort(nums, left, lp - 1)
-    qsort(nums, rp + 1, right)
+    nums[l], nums[ri] = nums[ri], nums[l]
+    qsort(nums, l, li - 1)
+    qsort(nums, ri + 1, r)
     return nums
 
 
