@@ -1,3 +1,7 @@
+"""
+并查集 PlayGround
+https://leetcode-cn.com/playground/oYjVrURc/
+"""
 class DSU:
     def __init__(self, n):
         self.parent = list(range(n))
