@@ -97,9 +97,9 @@ def qsort(nums, l, r):
     li = l
     ri = r
     while li < ri:
-        while nums[ri] >= key and li < ri:
+        while li < ri and nums[ri] >= key:
             ri -= 1
-        while nums[li] <= key and li < ri:
+        while li < ri and nums[li] <= key:
             li += 1
         nums[li], nums[ri] = nums[ri], nums[li]
 
