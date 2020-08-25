@@ -11,33 +11,34 @@ from collections import OrderedDict
 
 
 class LRUCache:
-    def __init__(self, size):
-        self.size = size
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
         self.dict = OrderedDict()
 
-    def set(self, key, value):
-        self.dict[key] = value
-        self.dict.move_to_end(key)
-        if len(self.dict) > self.size:
-            self.dict.popitem(last=False)
-
-    def get(self, key):
+    def get(self, key: int) -> int:
         if key not in self.dict:
             return -1
         else:
             self.dict.move_to_end(key)
             return self.dict[key]
 
+    def put(self, key: int, value: int) -> None:
+        self.dict[key] = value
+        self.dict.move_to_end(key)
+        if len(self.dict) > self.capacity:
+            self.dict.popitem(last=False)
+
 
 if __name__ == '__main__':
     lru = LRUCache(3)
-    lru.set(1, 1)
-    lru.set(2, 2)
-    lru.set(3, 3)
+    lru.put(1, 1)
+    lru.put(2, 2)
+    lru.put(3, 3)
     print(lru.dict)
     lru.get(1)
     print(lru.dict)
-    lru.set(4, 4)
+    lru.put(4, 4)
     print(lru.dict)
 
 """
