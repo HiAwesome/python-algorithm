@@ -17,7 +17,7 @@ class TreeNode:
 class Solution:
     # 递归搜索
     def searchBST(self, root: TreeNode, val: int) -> TreeNode:
-        if root is None or val == root.val:
+        if not root or val == root.val:
             return root
 
         if val < root.val:
@@ -37,33 +37,30 @@ class Solution:
             return TreeNode(val)
 
         if val > root.val:
-            # insert into the right subtree
             root.right = self.insertIntoBST(root.right, val)
         else:
-            # insert into the left subtree
             root.left = self.insertIntoBST(root.left, val)
+
         return root
 
     # 迭代插入
     def insertIntoBST(self, root: TreeNode, val: int) -> TreeNode:
         node = root
+
         while node:
-            # insert into the right subtree
             if val > node.val:
-                # insert right now
-                if not node.right:
+                if node.right:
+                    node = node.right
+                else:
                     node.right = TreeNode(val)
                     return root
-                else:
-                    node = node.right
-            # insert into the left subtree
             else:
-                # insert right now
-                if not node.left:
+                if node.left:
+                    node = node.left
+                else:
                     node.left = TreeNode(val)
                     return root
-                else:
-                    node = node.left
+
         return TreeNode(val)
 
     # 递归删除
@@ -71,22 +68,16 @@ class Solution:
         if not root:
             return root
 
-        # delete from the right subtree
         if key > root.val:
             root.right = self.deleteNode(root.right, key)
-        # delete from the left subtree
         elif key < root.val:
             root.left = self.deleteNode(root.left, key)
-        # delete the current node
         else:
-            # the node is a leaf
             if not (root.left or root.right):
                 root = None
-            # the node is not a leaf and has a right child
             elif root.right:
                 root.val = self.successor(root)
                 root.right = self.deleteNode(root.right, root.val)
-            # the node is not a leaf, has no right child, and has a left child
             else:
                 root.val = self.predecessor(root)
                 root.left = self.deleteNode(root.left, root.val)
@@ -94,18 +85,12 @@ class Solution:
         return root
 
     def successor(self, root):
-        """
-        One step right and then always left
-        """
         root = root.right
         while root.left:
             root = root.left
         return root.val
 
     def predecessor(self, root):
-        """
-        One step left and then always right
-        """
         root = root.left
         while root.right:
             root = root.right
