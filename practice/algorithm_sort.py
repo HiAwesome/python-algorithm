@@ -5,6 +5,7 @@ http://wuchong.me/blog/2014/02/09/algorithm-sort-summary/
 
 力扣练手: https://leetcode-cn.com/problems/sort-an-array/
 '''
+import random
 
 
 # 冒泡排序
@@ -93,6 +94,10 @@ def quick_sort(nums):
 def qsort(nums, l, r):
     if l >= r:
         return nums
+    # 随机化切分元素，避免递归树退化为链表
+    random_index = random.randint(l, r)
+    nums[random_index], nums[l] = nums[l], nums[random_index]
+
     key = nums[l]
     li = l
     ri = r

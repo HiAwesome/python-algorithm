@@ -13,6 +13,8 @@ from collections import deque
 from random import shuffle
 # noinspection PyUnresolvedReferences
 from typing import List
+# noinspection PyUnresolvedReferences
+import random
 
 
 class ListNode:
@@ -36,6 +38,9 @@ class Solution:
 
         # 将 value 放在排序后合适的 index 上
         def partition(l, r):
+            # 随机化切分元素, 避免递归树退化为链表
+            random_index = random.randint(l, r)
+            nums[random_index], nums[l] = nums[l], nums[random_index]
             value = nums[l]
             index = l
             for i in range(l + 1, r + 1):
