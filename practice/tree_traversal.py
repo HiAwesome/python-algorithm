@@ -3,6 +3,9 @@
 https://leetcode-cn.com/problems/binary-tree-preorder-traversal/
 https://leetcode-cn.com/problems/binary-tree-inorder-traversal/
 https://leetcode-cn.com/problems/binary-tree-postorder-traversal/
+
+方法解析，完全模仿系统栈操作
+https://leetcode-cn.com/problems/binary-tree-postorder-traversal/solution/mo-fang-di-gui-zhi-bian-yi-xing-by-sonp/417844
 """
 from typing import List
 
@@ -28,11 +31,17 @@ def pre(root: TreeNode) -> List[int]:
 
     while stack:
         node = stack.pop()
-        res.append(node.val)
-        if node.right:
-            stack.append(node.right)
-        if node.left:
-            stack.append(node.left)
+
+        if not node:
+            node = stack.pop()
+            res.append(node.val)
+        else:
+            if node.right:
+                stack.append(node.right)
+            if node.left:
+                stack.append(node.left)
+            stack.append(node)
+            stack.append(None)
 
     return res
 
@@ -47,16 +56,22 @@ def ino(root: TreeNode) -> List[int]:
     if not root:
         return []
 
-    node, stack, res = root, [], []
+    stack, res = [root], []
 
-    while node or stack:
-        if node:
-            stack.append(node)
-            node = node.left
-        else:
+    while stack:
+        node = stack.pop()
+
+        if not node:
             node = stack.pop()
             res.append(node.val)
-            node = node.right
+        else:
+            if node.right:
+                stack.append(node.right)
+            stack.append(node)
+            stack.append(None)
+            if node.left:
+                stack.append(node.left)
+
     return res
 
 
@@ -74,15 +89,16 @@ def post(root: TreeNode) -> List[int]:
 
     while stack:
         node = stack.pop()
-        if node:
+
+        if not node:
+            node = stack.pop()
+            res.append(node.val)
+        else:
             stack.append(node)
             stack.append(None)
             if node.right:
                 stack.append(node.right)
             if node.left:
                 stack.append(node.left)
-        else:
-            node = stack.pop()
-            res.append(node.val)
 
     return res
