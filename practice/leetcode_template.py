@@ -11,6 +11,8 @@ from collections import deque
 from random import shuffle
 # noinspection PyUnresolvedReferences
 from typing import List
+# noinspection PyUnresolvedReferences
+import heapq
 
 
 class ListNode:
@@ -28,15 +30,31 @@ class TreeNode:
 
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        counter = Counter(nums)
-        return [ele[0] for ele in counter.most_common(k)]
+        map = {}
+
+        for i in nums:
+            map[i] = map.get(i, 0) + 1
+
+        max_time = max(map.values())
+        tongList = [[] for _ in range(max_time + 1)]
+
+        for key, value in map.items():
+            tongList[value].append(key)
+
+        res = []
+
+        for i in range(max_time, 0, -1):
+            if tongList[i]:
+                res.extend(tongList[i])
+            if len(res) >= k:
+                return res[:k]
 
 
 class TestSolution(unittest.TestCase):
     method = Solution().topKFrequent
 
     def test_1(self):
-        self.assertEqual(self.method([1, 1, 1, 2, 2, 3], 2), [1, 2])
+        self.assertEqual(self.method([1], 1), [1])
 
     # def test_2(self):
     #     self.assertEqual(self.method(["dog","racecar","car"]), "")
