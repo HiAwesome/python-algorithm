@@ -25,21 +25,38 @@ class TreeNode:
 
 
 class Solution:
-    def permute(self, nums: List[int]) -> List[List[int]]:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        m = len(board)
+        if m == 0:
+            return False
+        n = len(board[0])
 
-        n = len(nums)
-        res = []
+        visited = [[False for _ in range(n)] for _ in range(m)]
 
-        def backtrack(index):
-            if index == n:
-                res.append(nums[:])
-            for i in range(index, n):
-                nums[index], nums[i] = nums[i], nums[index]
-                backtrack(index + 1)
-                nums[index], nums[i] = nums[i], nums[index]
+        def backtrack(i, j, visited, word):
+            if len(word) == 0:
+                return True
 
-        backtrack(0)
-        return res
+            for (ni, nj) in ((i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)):
+                if 0 <= ni < m and 0 <= nj < n and board[ni][nj] == word[0] and not visited[ni][nj]:
+                    visited[ni][nj] = True
+                    if backtrack(ni, nj, visited, word[1:]):
+                        return True
+                    else:
+                        visited[ni][nj] = False
+
+            return False
+
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == word[0]:
+                    visited[i][j] = True
+                    if backtrack(i, j, visited, word[1:]):
+                        return True
+                    else:
+                        visited[i][j] = False
+
+        return False
 
 
 class TestSolution(unittest.TestCase):
