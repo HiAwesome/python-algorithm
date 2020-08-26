@@ -1,4 +1,6 @@
 # noinspection PyUnresolvedReferences
+# noinspection PyUnresolvedReferences
+import heapq
 import re
 import unittest
 # noinspection PyUnresolvedReferences
@@ -11,8 +13,6 @@ from collections import deque
 from random import shuffle
 # noinspection PyUnresolvedReferences
 from typing import List
-# noinspection PyUnresolvedReferences
-import heapq
 
 
 class ListNode:
@@ -29,32 +29,38 @@ class TreeNode:
 
 
 class Solution:
-    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        map = {}
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        k_index = n - k
+        l, r = 0, n - 1
 
-        for i in nums:
-            map[i] = map.get(i, 0) + 1
+        # 将 value 放在排序后合适的 index 上
+        def partition(l, r):
+            value = nums[l]
+            index = l
+            for i in range(l + 1, r + 1):
+                if nums[i] < value:
+                    index += 1
+                    nums[i], nums[index] = nums[index], nums[i]
 
-        max_time = max(map.values())
-        tongList = [[] for _ in range(max_time + 1)]
+            nums[l], nums[index] = nums[index], nums[l]
+            return index
 
-        for key, value in map.items():
-            tongList[value].append(key)
-
-        res = []
-
-        for i in range(max_time, 0, -1):
-            if tongList[i]:
-                res.extend(tongList[i])
-            if len(res) >= k:
-                return res[:k]
+        while True:
+            index = partition(l, r)
+            if index == k_index:
+                return nums[index]
+            elif index < k_index:
+                l = index + 1
+            else:
+                r = index - 1
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().topKFrequent
+    method = Solution().findKthLargest
 
     def test_1(self):
-        self.assertEqual(self.method([1], 1), [1])
+        self.assertEqual(self.method([3, 2, 1, 5, 6, 4], 2), 5)
 
     # def test_2(self):
     #     self.assertEqual(self.method(["dog","racecar","car"]), "")
