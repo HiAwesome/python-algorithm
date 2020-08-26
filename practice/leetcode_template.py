@@ -33,32 +33,19 @@ class TreeNode:
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
         n = len(nums)
-        k_index = n - k
-        l, r = 0, n - 1
+        if k > n:
+            return -1
 
-        # 将 value 放在排序后合适的 index 上
-        def partition(l, r):
-            # 随机化切分元素, 避免递归树退化为链表
-            random_index = random.randint(l, r)
-            nums[random_index], nums[l] = nums[l], nums[random_index]
-            value = nums[l]
-            index = l
-            for i in range(l + 1, r + 1):
-                if nums[i] < value:
-                    index += 1
-                    nums[i], nums[index] = nums[index], nums[i]
+        array = []
+        for i in range(k):
+            heapq.heappush(array, nums[i])
 
-            nums[l], nums[index] = nums[index], nums[l]
-            return index
+        for i in range(k, n):
+            top = array[0]
+            if nums[i] > top:
+                heapq.heapreplace(array, nums[i])
 
-        while True:
-            index = partition(l, r)
-            if index == k_index:
-                return nums[index]
-            elif index < k_index:
-                l = index + 1
-            else:
-                r = index - 1
+        return array[0]
 
 
 class TestSolution(unittest.TestCase):
