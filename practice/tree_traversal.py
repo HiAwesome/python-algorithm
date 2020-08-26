@@ -27,13 +27,12 @@ def pre(root: TreeNode) -> List[int]:
     stack, res = [root], []
 
     while stack:
-        cur = stack.pop()
-        res.append(cur.val)
-        # 顺序：先添加右节点，再添加左节点
-        if cur.right:
-            stack.append(cur.right)
-        if cur.left:
-            stack.append(cur.left)
+        node = stack.pop()
+        res.append(node.val)
+        if node.right:
+            stack.append(node.right)
+        if node.left:
+            stack.append(node.left)
 
     return res
 
@@ -48,16 +47,16 @@ def ino(root: TreeNode) -> List[int]:
     if not root:
         return []
 
-    cur, stack, res = root, [], []
+    node, stack, res = root, [], []
 
-    while cur or stack:
-        if cur:
-            stack.append(cur)
-            cur = cur.left
+    while node or stack:
+        if node:
+            stack.append(node)
+            node = node.left
         else:
-            cur = stack.pop()
-            res.append(cur.val)
-            cur = cur.right
+            node = stack.pop()
+            res.append(node.val)
+            node = node.right
     return res
 
 
@@ -74,16 +73,16 @@ def post(root: TreeNode) -> List[int]:
     stack, res = [root], []
 
     while stack:
-        cur = stack.pop()
-        if cur:
-            stack.append(cur)
+        node = stack.pop()
+        if node:
+            stack.append(node)
             stack.append(None)
-            if cur.right:
-                stack.append(cur.right)
-            if cur.left:
-                stack.append(cur.left)
+            if node.right:
+                stack.append(node.right)
+            if node.left:
+                stack.append(node.left)
         else:
-            cur = stack.pop()
-            res.append(cur.val)
+            node = stack.pop()
+            res.append(node.val)
 
     return res
