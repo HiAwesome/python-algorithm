@@ -11,11 +11,11 @@ from collections import defaultdict
 # noinspection PyUnresolvedReferences
 from collections import deque
 # noinspection PyUnresolvedReferences
+from pprint import pprint
+# noinspection PyUnresolvedReferences
 from random import shuffle
 # noinspection PyUnresolvedReferences
 from typing import List
-# noinspection PyUnresolvedReferences
-from pprint import pprint
 
 
 class ListNode:
@@ -32,25 +32,29 @@ class TreeNode:
 
 
 class Solution:
-    def coinChange(self, coins: List[int], amount: int) -> int:
-        res = [float('inf')] * (amount + 1)
-        res[0] = 0
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        n = len(nums)
+        dp = [1] * n
 
-        for coin in coins:
-            for i in range(coin, amount + 1):
-                res[i] = min(res[i], res[i - coin] + 1)
+        for i in range(n):
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    dp[i] = max(dp[i], dp[j] + 1)
 
-        return res[-1] if res[-1] != float('inf') else -1
+        return max(dp)
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().coinChange
+    method = Solution().lengthOfLIS
 
     def test_1(self):
-        self.assertEqual(self.method([1, 2, 5], 11), 3)
+        self.assertEqual(self.method([10, 9, 2, 5, 3, 7, 101, 18]), 4)
 
     def test_2(self):
-        self.assertEqual(self.method([2], 3), -1)
+        pass
+        # self.assertEqual(self.method([2], 3), -1)
 
     # def test_3(self):
     #     self.assertEqual(self.method('4193 with words'), 4193)
