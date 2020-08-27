@@ -17,35 +17,44 @@ class TreeNode(object):
 
 class Codec:
     def serialize(self, root):
-        if not root: return []
+        if not root:
+            return []
+
         q = deque()
         q.append(root)
         res = ''
+
         while q:
             node = q.popleft()
-            if not node:
+            if node:
                 res += str(node.val) + ','
                 q.append(node.left)
                 q.append(node.right)
             else:
                 res += 'X,'
+
         return res
 
     def deserialize(self, data):
-        if not data: return None
-        data = data.split(',')
-        root = TreeNode(data.pop(0))
-        q = [root]
+        if not data:
+            return None
+
+        data_q = deque(data.split(','))
+        root = TreeNode(data_q.popleft())
+        q = deque()
+        q.append(root)
+
         while q:
-            node = q.pop(0)
-            if data:
-                val = data.pop(0)
+            node = q.popleft()
+            if data_q:
+                val = data_q.popleft()
                 if val != 'X':
                     node.left = TreeNode(val)
                     q.append(node.left)
-            if data:
-                val = data.pop(0)
+            if data_q:
+                val = data_q.popleft()
                 if val != 'X':
                     node.right = TreeNode(val)
                     q.append(node.right)
+
         return root
