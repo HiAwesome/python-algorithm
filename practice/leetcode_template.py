@@ -32,39 +32,27 @@ class TreeNode:
 
 
 class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
-        res = []
+    def titleToNumber(self, s: str) -> int:
+        res = 0
 
-        for n in nums:
-            if not res or n > res[-1]:
-                res.append(n)
-            else:
-                l, r = 0, len(res) - 1
-                index = r
-                while l <= r:
-                    m = l + (r - l) // 2
-                    if res[m] >= n:
-                        index = m
-                        r = m - 1
-                    else:
-                        l = m + 1
-                res[index] = n
+        for c in s:
+            res *= 26
+            res += ord(c) - ord('A') + 1
 
-        return len(res)
+        return res
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().lengthOfLIS
+    method = Solution().titleToNumber
 
     def test_1(self):
-        self.assertEqual(self.method([10, 9, 2, 5, 3, 7, 101, 18]), 4)
+        self.assertEqual(self.method('A'), 1)
 
     def test_2(self):
-        pass
-        # self.assertEqual(self.method([2], 3), -1)
+        self.assertEqual(self.method('AB'), 28)
 
-    # def test_3(self):
-    #     self.assertEqual(self.method('4193 with words'), 4193)
+    def test_3(self):
+        self.assertEqual(self.method('ZY'), 701)
 
     # def test_4(self):
     #     self.assertEqual(self.method('words and 987'), 0)
