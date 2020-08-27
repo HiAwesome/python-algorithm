@@ -33,17 +33,24 @@ class TreeNode:
 
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
-        if not nums:
-            return 0
-        n = len(nums)
-        dp = [1] * n
+        res = []
 
-        for i in range(n):
-            for j in range(i):
-                if nums[i] > nums[j]:
-                    dp[i] = max(dp[i], dp[j] + 1)
+        for n in nums:
+            if not res or n > res[-1]:
+                res.append(n)
+            else:
+                l, r = 0, len(res) - 1
+                index = r
+                while l <= r:
+                    m = l + (r - l) // 2
+                    if res[m] >= n:
+                        index = m
+                        r = m - 1
+                    else:
+                        l = m + 1
+                res[index] = n
 
-        return max(dp)
+        return len(res)
 
 
 class TestSolution(unittest.TestCase):
