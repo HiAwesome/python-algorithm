@@ -32,26 +32,40 @@ class TreeNode:
 
 
 class Solution:
-    def uniquePaths(self, m: int, n: int) -> int:
-        dp = [[1] * n] + [[1] + [0] * (n - 1) for _ in range(m - 1)]
-        pprint(dp)
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        memo = {}
 
-        for i in range(1, m):
-            for j in range(1, n):
-                dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+        def dp(n):
+            if n in memo:
+                return memo[n]
 
-        pprint(dp)
-        return dp[-1][-1]
+            if n == 0:
+                return 0
+            if n < 0:
+                return -1
+
+            res = float('inf')
+
+            for coin in coins:
+                sub_problem = dp(n - coin)
+                if sub_problem == -1:
+                    continue
+                res = min(res, 1 + sub_problem)
+
+            memo[n] = res if res != float('inf') else -1
+            return memo[n]
+
+        return dp(amount)
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().uniquePaths
+    method = Solution().coinChange
 
     def test_1(self):
-        self.assertEqual(self.method(3, 2), 3)
+        self.assertEqual(self.method([1, 2, 5], 11), 3)
 
     def test_2(self):
-        self.assertEqual(self.method(7, 3), 28)
+        self.assertEqual(self.method([2], 3), -1)
 
     # def test_3(self):
     #     self.assertEqual(self.method('4193 with words'), 4193)
