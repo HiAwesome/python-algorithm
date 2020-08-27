@@ -14,6 +14,8 @@ from collections import deque
 from random import shuffle
 # noinspection PyUnresolvedReferences
 from typing import List
+# noinspection PyUnresolvedReferences
+from pprint import pprint
 
 
 class ListNode:
@@ -30,42 +32,26 @@ class TreeNode:
 
 
 class Solution:
-    def searchMatrix(self, matrix, target):
-        m = len(matrix)
-        if m == 0:
-            return False
-        n = len(matrix[0])
+    def uniquePaths(self, m: int, n: int) -> int:
+        dp = [[1] * n] + [[1] + [0] * (n - 1) for _ in range(m - 1)]
+        pprint(dp)
 
-        row, col = m - 1, 0
+        for i in range(1, m):
+            for j in range(1, n):
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
 
-        while 0 <= row < m and 0 <= col < n:
-            value = matrix[row][col]
-            if value == target:
-                return True
-            elif value < target:
-                col += 1
-            else:
-                row -= 1
-
-        return False
-
+        pprint(dp)
+        return dp[-1][-1]
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().searchMatrix
-    a = [
-        [1, 4, 7, 11, 15],
-        [2, 5, 8, 12, 19],
-        [3, 6, 9, 16, 22],
-        [10, 13, 14, 17, 24],
-        [18, 21, 23, 26, 30]
-    ]
+    method = Solution().uniquePaths
 
     def test_1(self):
-        self.assertEqual(self.method(self.a, 5), True)
+        self.assertEqual(self.method(3, 2), 3)
 
     def test_2(self):
-        self.assertEqual(self.method(self.a, 20), False)
+        self.assertEqual(self.method(7, 3), 28)
 
     # def test_3(self):
     #     self.assertEqual(self.method('4193 with words'), 4193)
