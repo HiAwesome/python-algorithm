@@ -1,7 +1,8 @@
 # noinspection PyUnresolvedReferences
 # noinspection PyUnresolvedReferences
 import heapq
-import re
+# noinspection PyUnresolvedReferences
+import random
 import unittest
 # noinspection PyUnresolvedReferences
 from collections import Counter
@@ -13,8 +14,6 @@ from collections import deque
 from random import shuffle
 # noinspection PyUnresolvedReferences
 from typing import List
-# noinspection PyUnresolvedReferences
-import random
 
 
 class ListNode:
@@ -31,31 +30,42 @@ class TreeNode:
 
 
 class Solution:
-    def findKthLargest(self, nums: List[int], k: int) -> int:
-        n = len(nums)
-        if k > n:
-            return -1
+    def searchMatrix(self, matrix, target):
+        m = len(matrix)
+        if m == 0:
+            return False
+        n = len(matrix[0])
 
-        array = []
-        for i in range(k):
-            heapq.heappush(array, nums[i])
+        row, col = m - 1, 0
 
-        for i in range(k, n):
-            top = array[0]
-            if nums[i] > top:
-                heapq.heapreplace(array, nums[i])
+        while 0 <= row < m and 0 <= col < n:
+            value = matrix[row][col]
+            if value == target:
+                return True
+            elif value < target:
+                col += 1
+            else:
+                row -= 1
 
-        return array[0]
+        return False
+
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().findKthLargest
+    method = Solution().searchMatrix
+    a = [
+        [1, 4, 7, 11, 15],
+        [2, 5, 8, 12, 19],
+        [3, 6, 9, 16, 22],
+        [10, 13, 14, 17, 24],
+        [18, 21, 23, 26, 30]
+    ]
 
     def test_1(self):
-        self.assertEqual(self.method([3, 2, 1, 5, 6, 4], 2), 5)
+        self.assertEqual(self.method(self.a, 5), True)
 
-    # def test_2(self):
-    #     self.assertEqual(self.method(["dog","racecar","car"]), "")
+    def test_2(self):
+        self.assertEqual(self.method(self.a, 20), False)
 
     # def test_3(self):
     #     self.assertEqual(self.method('4193 with words'), 4193)
