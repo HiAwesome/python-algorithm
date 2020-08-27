@@ -33,29 +33,14 @@ class TreeNode:
 
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
-        memo = {}
+        res = [float('inf')] * (amount + 1)
+        res[0] = 0
 
-        def dp(n):
-            if n in memo:
-                return memo[n]
+        for coin in coins:
+            for i in range(coin, amount + 1):
+                res[i] = min(res[i], res[i - coin] + 1)
 
-            if n == 0:
-                return 0
-            if n < 0:
-                return -1
-
-            res = float('inf')
-
-            for coin in coins:
-                sub_problem = dp(n - coin)
-                if sub_problem == -1:
-                    continue
-                res = min(res, 1 + sub_problem)
-
-            memo[n] = res if res != float('inf') else -1
-            return memo[n]
-
-        return dp(amount)
+        return res[-1] if res[-1] != float('inf') else -1
 
 
 class TestSolution(unittest.TestCase):
