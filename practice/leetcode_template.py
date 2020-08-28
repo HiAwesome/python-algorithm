@@ -32,27 +32,53 @@ class TreeNode:
 
 
 class Solution:
-    def titleToNumber(self, s: str) -> int:
-        res = 0
+    def fractionToDecimal(self, numerator: int, denominator: int) -> str:
+        if numerator == 0:
+            return '0'
 
-        for c in s:
-            res *= 26
-            res += ord(c) - ord('A') + 1
+        res = []
 
-        return res
+        if (numerator > 0) ^ (denominator > 0):
+            res.append('-')
+
+        numerator, denominator = abs(numerator), abs(denominator)
+
+        a, b = divmod(numerator, denominator)
+        res.append(str(a))
+
+        if b == 0:
+            return ''.join(res)
+
+        res.append('.')
+
+        loc = {b: len(res)}
+
+        while b:
+            b *= 10
+            a, b = divmod(b, denominator)
+            res.append(str(a))
+            if b in loc:
+                res.insert(loc[b], '(')
+                res.append(')')
+                break
+            loc[b] = len(res)
+
+        return ''.join(res)
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().titleToNumber
+    method = Solution().fractionToDecimal
 
     def test_1(self):
-        self.assertEqual(self.method('A'), 1)
+        self.assertEqual(self.method(2, 3), '0.(6)')
 
     def test_2(self):
-        self.assertEqual(self.method('AB'), 28)
+        pass
+        # self.assertEqual(self.method('AB'), 28)
 
     def test_3(self):
-        self.assertEqual(self.method('ZY'), 701)
+        pass
+        # self.assertEqual(self.method('ZY'), 701)
 
     # def test_4(self):
     #     self.assertEqual(self.method('words and 987'), 0)
