@@ -32,48 +32,33 @@ class TreeNode:
 
 
 class Solution:
-    def fractionToDecimal(self, numerator: int, denominator: int) -> str:
-        if numerator == 0:
-            return '0'
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        # 如果间隔数小于任务数，则返回数组长度
+        # 如果间隔数大于等于任务数，则计算结果：(max(相同类出现的次数)-1)*(n+1) + 相同类出现次数最多的类数量
+        count = Counter(tasks)
+        # 任务数
+        length = len(count)
 
-        res = []
+        # 相同类出现的最大次数
+        all_count = count.values()
+        max_cnt = max(all_count)
+        # 相同类出现次数最多的类数量
+        max_cnt_tasks = Counter(all_count).get(max_cnt)
+        res = (max_cnt - 1) * (n + 1) + max_cnt_tasks
 
-        if (numerator > 0) ^ (denominator > 0):
-            res.append('-')
-
-        numerator, denominator = abs(numerator), abs(denominator)
-        a, b = divmod(numerator, denominator)
-        res.append(str(a))
-
-        if b == 0:
-            return ''.join(res)
-        else:
-            res.append('.')
-
-        loc = {b: len(res)}
-
-        while b:
-            b *= 10
-            a, b = divmod(b, denominator)
-            res.append(str(a))
-            if b in loc:
-                res.insert(loc[b], '(')
-                res.append(')')
-                break
-            loc[b] = len(res)
-
-        return ''.join(res)
+        return res if length < n else max(len(tasks), res)
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().fractionToDecimal
+    method = Solution().leastInterval
 
     def test_1(self):
-        self.assertEqual(self.method(2, 3), '0.(6)')
+        # pass
+        self.assertEqual(self.method(["A", "A", "A", "B", "B", "B"], 2), 8)
 
     def test_2(self):
-        # pass
-        self.assertEqual(self.method(2, 4), '0.5')
+        pass
+        # self.assertEqual(self.method(2, 4), '0.5')
 
     def test_3(self):
         pass
