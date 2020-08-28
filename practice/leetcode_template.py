@@ -42,14 +42,13 @@ class Solution:
             res.append('-')
 
         numerator, denominator = abs(numerator), abs(denominator)
-
         a, b = divmod(numerator, denominator)
         res.append(str(a))
 
         if b == 0:
             return ''.join(res)
-
-        res.append('.')
+        else:
+            res.append('.')
 
         loc = {b: len(res)}
 
@@ -73,8 +72,8 @@ class TestSolution(unittest.TestCase):
         self.assertEqual(self.method(2, 3), '0.(6)')
 
     def test_2(self):
-        pass
-        # self.assertEqual(self.method('AB'), 28)
+        # pass
+        self.assertEqual(self.method(2, 4), '0.5')
 
     def test_3(self):
         pass
