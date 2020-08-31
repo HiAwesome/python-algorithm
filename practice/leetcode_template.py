@@ -32,33 +32,56 @@ class TreeNode:
 
 
 class Solution:
-    def leastInterval(self, tasks: List[str], n: int) -> int:
-        # 如果间隔数小于任务数，则返回数组长度
-        # 如果间隔数大于等于任务数，则计算结果：(max(相同类出现的次数)-1)*(n+1) + 相同类出现次数最多的类数量
-        count = Counter(tasks)
-        # 任务数
-        length = len(count)
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        res = []
+        first_index = 0
+        n = len(nums)
 
-        # 相同类出现的最大次数
-        all_count = count.values()
-        max_cnt = max(all_count)
-        # 相同类出现次数最多的类数量
-        max_cnt_tasks = Counter(all_count).get(max_cnt)
-        res = (max_cnt - 1) * (n + 1) + max_cnt_tasks
+        for first_index in range(n - 2):
+            if nums[first_index] > 0:
+                break
 
-        return res if length < n else max(len(tasks), res)
+            if first_index > 0 and nums[first_index] == nums[first_index - 1]:
+                continue
+
+            l, r = first_index + 1, n - 1
+            while l < r:
+                s = nums[first_index] + nums[l] + nums[r]
+                if s < 0:
+                    l += 1
+                    while l < r and nums[l] == nums[l - 1]:
+                        l += 1
+                elif s > 0:
+                    r -= 1
+                    while l < r and nums[r] == nums[r + 1]:
+                        r -= 1
+                else:
+                    res.append([nums[first_index], nums[l], nums[r]])
+                    l += 1
+                    r -= 1
+                    while l < r and nums[l] == nums[l - 1]:
+                        l += 1
+                    while l < r and nums[r] == nums[r + 1]:
+                        r -= 1
+
+        return res
+
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().leastInterval
+    method = Solution().threeSum
 
     def test_1(self):
         # pass
-        self.assertEqual(self.method(["A", "A", "A", "B", "B", "B"], 2), 8)
+        self.assertEqual(self.method([-1, 0, 1, 2, -1, -4]), [
+            [-1, -1, 2],
+            [-1, 0, 1]
+        ])
 
     def test_2(self):
         pass
-        # self.assertEqual(self.method(2, 4), '0.5')
+        # self.assertEqual(self.method('a', 'b'), False)
 
     def test_3(self):
         pass
