@@ -32,60 +32,40 @@ class TreeNode:
 
 
 class Solution:
-    def threeSum(self, nums: List[int]) -> List[List[int]]:
-        nums.sort()
-        res = []
-        first_index = 0
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
         n = len(nums)
+        L, R, ans = [0] * n, [0] * n, [0] * n
 
-        for first_index in range(n - 2):
-            if nums[first_index] > 0:
-                break
+        L[0] = 1
+        for i in range(1, n):
+            L[i] = nums[i - 1] * L[i - 1]
 
-            if first_index > 0 and nums[first_index] == nums[first_index - 1]:
-                continue
+        R[n - 1] = 1
+        # for i in reversed(range(n - 1)):
+        #     R[i] = nums[i + 1] * R[i + 1]
+        for i in range(n - 2, -1, -1):
+            R[i] = nums[i + 1] * R[i + 1]
 
-            l, r = first_index + 1, n - 1
-            while l < r:
-                s = nums[first_index] + nums[l] + nums[r]
-                if s < 0:
-                    l += 1
-                    while l < r and nums[l] == nums[l - 1]:
-                        l += 1
-                elif s > 0:
-                    r -= 1
-                    while l < r and nums[r] == nums[r + 1]:
-                        r -= 1
-                else:
-                    res.append([nums[first_index], nums[l], nums[r]])
-                    l += 1
-                    r -= 1
-                    while l < r and nums[l] == nums[l - 1]:
-                        l += 1
-                    while l < r and nums[r] == nums[r + 1]:
-                        r -= 1
+        for i in range(n):
+            ans[i] = L[i] * R[i]
 
-        return res
-
+        return ans
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().threeSum
+    method = Solution().productExceptSelf
 
     def test_1(self):
         # pass
-        self.assertEqual(self.method([-1, 0, 1, 2, -1, -4]), [
-            [-1, -1, 2],
-            [-1, 0, 1]
-        ])
+        self.assertEqual(self.method([1, 2, 3, 4]), [24, 12, 8, 6])
 
     def test_2(self):
         pass
-        # self.assertEqual(self.method('a', 'b'), False)
+        # self.assertEqual(self.method([1, 0, 1, 1], 1), True)
 
     def test_3(self):
         pass
-        # self.assertEqual(self.method('ZY'), 701)
+        # self.assertEqual(self.method([1, 2, 3, 1, 2, 3], 2), False)
 
     # def test_4(self):
     #     self.assertEqual(self.method('words and 987'), 0)
