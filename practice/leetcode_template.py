@@ -32,32 +32,45 @@ class TreeNode:
 
 
 class Solution:
-    def productExceptSelf(self, nums: List[int]) -> List[int]:
-        n = len(nums)
-        L, R, ans = [0] * n, [0] * n, [0] * n
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        if not matrix or not matrix[0]:
+            return []
 
-        L[0] = 1
-        for i in range(1, n):
-            L[i] = nums[i - 1] * L[i - 1]
+        m, n = len(matrix), len(matrix[0])
+        visited = [[False for _ in range(n)] for _ in range(m)]
+        total = m * n
+        ans = [0] * total
 
-        R[n - 1] = 1
-        # for i in reversed(range(n - 1)):
-        #     R[i] = nums[i + 1] * R[i + 1]
-        for i in range(n - 2, -1, -1):
-            R[i] = nums[i + 1] * R[i + 1]
+        directions = ((0, 1), (1, 0), (0, -1), (-1, 0))
+        r, c = 0, 0
+        di = 0
 
-        for i in range(n):
-            ans[i] = L[i] * R[i]
+        for i in range(total):
+            ans[i] = matrix[r][c]
+            visited[r][c] = True
+            nr, nc = r + directions[di][0], c + directions[di][1]
+
+            if not (0 <= nr < m and 0 <= nc < n and not visited[nr][nc]):
+                di = (di + 1) % 4
+
+            r += directions[di][0]
+            c += directions[di][1]
 
         return ans
 
 
+
+
 class TestSolution(unittest.TestCase):
-    method = Solution().productExceptSelf
+    method = Solution().spiralOrder
 
     def test_1(self):
         # pass
-        self.assertEqual(self.method([1, 2, 3, 4]), [24, 12, 8, 6])
+        self.assertEqual(self.method([
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]
+        ]), [1, 2, 3, 6, 9, 8, 7, 4, 5])
 
     def test_2(self):
         pass
