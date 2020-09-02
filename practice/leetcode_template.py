@@ -32,52 +32,52 @@ class TreeNode:
 
 
 class Solution:
-    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
-        if not matrix or not matrix[0]:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        n = len(nums)
+        if n * k == 0:
             return []
+        if k == 1:
+            return nums
 
-        m, n = len(matrix), len(matrix[0])
-        visited = [[False for _ in range(n)] for _ in range(m)]
-        total = m * n
-        ans = [0] * total
+        def clean_deque(i):
+            if d and d[0] == i - k:
+                d.popleft()
 
-        directions = ((0, 1), (1, 0), (0, -1), (-1, 0))
-        r, c = 0, 0
-        di = 0
+            while d and nums[i] > nums[d[-1]]:
+                d.pop()
 
-        for i in range(total):
-            ans[i] = matrix[r][c]
-            visited[r][c] = True
-            nr, nc = r + directions[di][0], c + directions[di][1]
+        d = deque()
+        max_idx = 0
 
-            if not (0 <= nr < m and 0 <= nc < n and not visited[nr][nc]):
-                di = (di + 1) % 4
+        for i in range(k):
+            clean_deque(i)
+            d.append(i)
+            if nums[i] > nums[max_idx]:
+                max_idx = i
 
-            r += directions[di][0]
-            c += directions[di][1]
+        res = [nums[max_idx]]
 
-        return ans
+        for i in range(k, n):
+            clean_deque(i)
+            d.append(i)
+            res.append(nums[d[0]])
 
-
+        return res
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().spiralOrder
+    method = Solution().maxSlidingWindow
 
     def test_1(self):
         # pass
-        self.assertEqual(self.method([
-            [1, 2, 3],
-            [4, 5, 6],
-            [7, 8, 9]
-        ]), [1, 2, 3, 6, 9, 8, 7, 4, 5])
+        self.assertEqual(self.method([1, 3, -1, -3, 5, 3, 6, 7], 3), [3, 3, 5, 5, 6, 7])
 
-    def test_2(self):
-        pass
+    # def test_2(self):
+    #     pass
         # self.assertEqual(self.method([1, 0, 1, 1], 1), True)
 
-    def test_3(self):
-        pass
+    # def test_3(self):
+    #     pass
         # self.assertEqual(self.method([1, 2, 3, 1, 2, 3], 2), False)
 
     # def test_4(self):
