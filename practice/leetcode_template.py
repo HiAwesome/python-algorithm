@@ -28,25 +28,39 @@ class TreeNode:
 
 
 class Solution:
-    def lengthOfLongestSubstring(self, s: str) -> int:
-        dic = collections.defaultdict(int)
-        start, end, max_len, counter = 0, 0, 0, 0
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        word_set = set(wordList)
+        if len(word_set) == 0 or endWord not in word_set:
+            return 0
 
-        while end < len(s):
-            if dic[s[end]] > 0:
-                counter += 1
-            dic[s[end]] += 1
-            end += 1
+        if beginWord in word_set:
+            word_set.remove(beginWord)
 
-            while counter > 0:
-                if dic[s[start]] > 1:
-                    counter -= 1
-                dic[s[start]] -= 1
-                start += 1
+        visited = set([beginWord, endWord])
+        begin_visited = set([beginWord])
+        end_visited = set([endWord])
+        word_len = len(beginWord)
+        step = 1
 
-            max_len = max(max_len, end - start)
+        while begin_visited and end_visited:
+            if len(begin_visited) > len(end_visited):
+                begin_visited, end_visited = end_visited, begin_visited
 
-        return max_len
+            next_level_visited = set()
+            for word in begin_visited:
+                for i in range(word_len):
+                    for char in 'abcdefghijklmnopqrstuvwxyz':
+                        next_word = word[:i] + char + word[i + 1:]
+                        if next_word in word_set:
+                            if next_word in end_visited:
+                                return step + 1
+                            if next_word not in visited:
+                                next_level_visited.add(next_word)
+                                visited.add(next_word)
+
+            begin_visited = next_level_visited
+            step += 1
+        return 0
 
 
 class TestSolution(unittest.TestCase):
