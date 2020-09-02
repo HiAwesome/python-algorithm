@@ -1,15 +1,11 @@
 # noinspection PyUnresolvedReferences
+import collections
 # noinspection PyUnresolvedReferences
 import heapq
 # noinspection PyUnresolvedReferences
 import random
+# noinspection PyUnresolvedReferences
 import unittest
-# noinspection PyUnresolvedReferences
-from collections import Counter
-# noinspection PyUnresolvedReferences
-from collections import defaultdict
-# noinspection PyUnresolvedReferences
-from collections import deque
 # noinspection PyUnresolvedReferences
 from pprint import pprint
 # noinspection PyUnresolvedReferences
@@ -32,37 +28,41 @@ class TreeNode:
 
 
 class Solution:
-    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
-        d = deque()
-        res = []
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        dic = collections.defaultdict(int)
+        start, end, max_len, counter = 0, 0, 0, 0
 
-        for index, value in enumerate(nums):
-            if d and d[0] <= index - k:
-                d.popleft()
-            while d and value > nums[d[-1]]:
-                d.pop()
-            d.append(index)
+        while end < len(s):
+            if dic[s[end]] > 0:
+                counter += 1
+            dic[s[end]] += 1
+            end += 1
 
-            if index >= k - 1:
-                res.append(nums[d[0]])
+            while counter > 0:
+                if dic[s[start]] > 1:
+                    counter -= 1
+                dic[s[start]] -= 1
+                start += 1
 
-        return res
+            max_len = max(max_len, end - start)
+
+        return max_len
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().maxSlidingWindow
+    method = Solution().lengthOfLongestSubstring
 
     def test_1(self):
         # pass
-        self.assertEqual(self.method([1, 3, -1, -3, 5, 3, 6, 7], 3), [3, 3, 5, 5, 6, 7])
+        self.assertEqual(self.method('abcabcbb'), 3)
 
     # def test_2(self):
     #     pass
-        # self.assertEqual(self.method([1, 0, 1, 1], 1), True)
+    # self.assertEqual(self.method([1, 0, 1, 1], 1), True)
 
     # def test_3(self):
     #     pass
-        # self.assertEqual(self.method([1, 2, 3, 1, 2, 3], 2), False)
+    # self.assertEqual(self.method([1, 2, 3, 1, 2, 3], 2), False)
 
     # def test_4(self):
     #     self.assertEqual(self.method('words and 987'), 0)
