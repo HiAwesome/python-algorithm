@@ -49,36 +49,36 @@ class Solution:
 class Solution:
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
         if not lists:
-            return ListNode(0)
+            return
+
+        def merge(left, right):
+            if left == right:
+                return lists[left]
+            mid = left + (right - left) // 2
+            l1 = merge(left, mid)
+            l2 = merge(mid + 1, right)
+            return mergeTwoList(l1, l2)
+
+        def mergeTwoList(l1, l2):
+            if not l1:
+                return l2
+            if not l2:
+                return l1
+
+            node = ListNode(0)
+            h = node
+
+            while l1 and l2:
+                if l1.val <= l2.val:
+                    h.next = l1
+                    l1 = l1.next
+                else:
+                    h.next = l2
+                    l2 = l2.next
+                h = h.next
+
+            h.next = l1 if l1 else l2
+            return node.next
 
         n = len(lists)
-        return self.merge(lists, 0, n - 1)
-
-    def merge(self, lists, left, right):
-        if left == right:
-            return lists[left]
-        mid = left + (right - left) // 2
-        l1 = self.merge(lists, left, mid)
-        l2 = self.merge(lists, mid + 1, right)
-        return self.mergeTwoList(l1, l2)
-
-    def mergeTwoList(self, l1, l2):
-        if not l1:
-            return l2
-        if not l2:
-            return l1
-
-        node = ListNode(0)
-        h = node
-
-        while l1 and l2:
-            if l1.val <= l2.val:
-                h.next = l1
-                l1 = l1.next
-            else:
-                h.next = l2
-                l2 = l2.next
-            h = h.next
-
-        h.next = l1 if l1 else l2
-        return node.next
+        return merge(0, n - 1)
