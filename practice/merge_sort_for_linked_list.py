@@ -1,7 +1,10 @@
 """
 链表的归并排序
 https://leetcode-cn.com/problems/sort-list/
+合并K个升序链表
+https://leetcode-cn.com/problems/merge-k-sorted-lists/
 """
+from typing import List
 
 
 class ListNode:
@@ -41,3 +44,41 @@ class Solution:
 
         dummy.next = left if left else right
         return res.next
+
+
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        if not lists:
+            return ListNode(0)
+
+        n = len(lists)
+        return self.merge(lists, 0, n - 1)
+
+    def merge(self, lists, left, right):
+        if left == right:
+            return lists[left]
+        mid = left + (right - left) // 2
+        l1 = self.merge(lists, left, mid)
+        l2 = self.merge(lists, mid + 1, right)
+        return self.mergeTwoList(l1, l2)
+
+    def mergeTwoList(self, l1, l2):
+        if not l1:
+            return l2
+        if not l2:
+            return l1
+
+        node = ListNode(0)
+        h = node
+
+        while l1 and l2:
+            if l1.val <= l2.val:
+                h.next = l1
+                l1 = l1.next
+            else:
+                h.next = l2
+                l2 = l2.next
+            h = h.next
+
+        h.next = l1 if l1 else l2
+        return node.next
