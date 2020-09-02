@@ -33,34 +33,18 @@ class TreeNode:
 
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
-        n = len(nums)
-        if n * k == 0:
-            return []
-        if k == 1:
-            return nums
-
-        def clean_deque(i):
-            if d and d[0] == i - k:
-                d.popleft()
-
-            while d and nums[i] > nums[d[-1]]:
-                d.pop()
-
         d = deque()
-        max_idx = 0
+        res = []
 
-        for i in range(k):
-            clean_deque(i)
-            d.append(i)
-            if nums[i] > nums[max_idx]:
-                max_idx = i
+        for index, value in enumerate(nums):
+            if d and d[0] <= index - k:
+                d.popleft()
+            while d and value > nums[d[-1]]:
+                d.pop()
+            d.append(index)
 
-        res = [nums[max_idx]]
-
-        for i in range(k, n):
-            clean_deque(i)
-            d.append(i)
-            res.append(nums[d[0]])
+            if index >= k - 1:
+                res.append(nums[d[0]])
 
         return res
 
