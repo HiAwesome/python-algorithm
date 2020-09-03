@@ -7,7 +7,7 @@ https://leetcode-cn.com/problems/design-linked-list/
 
 
 class Node:
-    def __init__(self, x):
+    def __init__(self, x=None):
         self.val = x
         self.next, self.prev = None, None
 
@@ -15,7 +15,7 @@ class Node:
 class MyLinkedList:
     def __init__(self):
         self.size = 0
-        self.head, self.tail = Node(0), Node(0)
+        self.head, self.tail = Node(), Node()
         self.head.next = self.tail
         self.tail.prev = self.head
 
