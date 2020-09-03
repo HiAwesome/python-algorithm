@@ -5,14 +5,14 @@ https://leetcode-cn.com/problems/design-hashset/
 
 
 class Node:
-    def __init__(self, value, next_node=None):
+    def __init__(self, value, next_node):
         self.value = value
         self.next = next_node
 
 
 class Bucket:
     def __init__(self):
-        self.head = Node(0)
+        self.head = Node(0, None)
 
     def contains(self, value):
         curr = self.head.next
