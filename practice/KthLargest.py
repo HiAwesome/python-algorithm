@@ -12,18 +12,8 @@ Python的heapq的文档：https://docs.python.org/3/library/heapq.html
 6、heapq其实是对一个list做原地的处理，第一个元素就是最小的，直接返回就是最小的值
 
 """
-from typing import List
-
-
-class TreeNode:
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
-        self.count = 1
-
-
 import heapq
+from typing import List
 
 
 class KthLargest:
