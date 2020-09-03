@@ -14,7 +14,7 @@ class Bucket:
     def __init__(self):
         self.head = Node(0)
 
-    def exists(self, value):
+    def contains(self, value):
         curr = self.head.next
         while curr:
             if curr.value == value:
@@ -22,12 +22,12 @@ class Bucket:
             curr = curr.next
         return False
 
-    def insert(self, new_value):
-        if not self.exists(new_value):
+    def add(self, new_value):
+        if not self.contains(new_value):
             new_node = Node(new_value, self.head.next)
             self.head.next = new_node
 
-    def delete(self, value):
+    def remove(self, value):
         prev = self.head
         curr = self.head.next
         while curr:
@@ -47,10 +47,10 @@ class MyHashSet(object):
         return key % self.key_range
 
     def add(self, key):
-        self.bucket_array[self.__get_hash_key(key)].insert(key)
+        self.bucket_array[self.__get_hash_key(key)].add(key)
 
     def remove(self, key):
-        self.bucket_array[self.__get_hash_key(key)].delete(key)
+        self.bucket_array[self.__get_hash_key(key)].remove(key)
 
     def contains(self, key):
-        return self.bucket_array[self.__get_hash_key(key)].exists(key)
+        return self.bucket_array[self.__get_hash_key(key)].contains(key)
