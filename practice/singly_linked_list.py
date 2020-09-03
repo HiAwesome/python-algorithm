@@ -21,10 +21,10 @@ class MyLinkedList:
         if index < 0 or index >= self.size:
             return -1
 
-        curr = self.head
+        node = self.head
         for _ in range(index + 1):
-            curr = curr.next
-        return curr.val
+            node = node.next
+        return node.val
 
     def addAtHead(self, val: int) -> None:
         self.addAtIndex(0, val)
@@ -40,21 +40,21 @@ class MyLinkedList:
             index = 0
 
         self.size += 1
-        predecessor = self.head
+        prev = self.head
         for _ in range(index):
-            predecessor = predecessor.next
+            prev = prev.next
 
         to_add = ListNode(val)
-        to_add.next = predecessor.next
-        predecessor.next = to_add
+        to_add.next = prev.next
+        prev.next = to_add
 
     def deleteAtIndex(self, index: int) -> None:
         if index < 0 or index >= self.size:
             return
 
         self.size -= 1
-        predecessor = self.head
+        prev = self.head
         for _ in range(index):
-            predecessor = predecessor.next
+            prev = prev.next
 
-        predecessor.next = predecessor.next.next
+        prev.next = prev.next.next
