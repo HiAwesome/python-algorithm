@@ -46,22 +46,23 @@ class Solution:
     # 迭代插入
     def insertIntoBST(self, root: TreeNode, val: int) -> TreeNode:
         node = root
+        new_node = TreeNode(val)
 
         while node:
             if val > node.val:
                 if node.right:
                     node = node.right
                 else:
-                    node.right = TreeNode(val)
+                    node.right = new_node
                     return root
             else:
                 if node.left:
                     node = node.left
                 else:
-                    node.left = TreeNode(val)
+                    node.left = new_node
                     return root
 
-        return TreeNode(val)
+        return new_node
 
     # 递归删除
     def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
