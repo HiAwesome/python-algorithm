@@ -23,27 +23,29 @@ class LRUCache:
         self.head.next = self.tail
         self.tail.prev = self.head
 
-    def __move_to_end(self, key):
+    def __split_node(self, key):
         node = self.dic[key]
         node.prev.next = node.next
         node.next.prev = node.prev
+        return node
 
+    def __move_to_end(self, node):
         node.prev = self.tail.prev
         node.next = self.tail
         self.tail.prev.next = node
         self.tail.prev = node
 
     def get(self, key: int) -> int:
-        if key not in self.dic:
-            return -1
-        else:
-            self.__move_to_end(key)
+        if key in self.dic:
+            self.__move_to_end(self.__split_node(key))
             return self.dic[key].value
+        else:
+            return -1
 
     def put(self, key: int, value: int) -> None:
         if key in self.dic:
             self.dic[key].value = value
-            self.__move_to_end(key)
+            self.__move_to_end(self.__split_node(key))
         else:
             if len(self.dic) == self.capacity:
                 self.dic.pop(self.head.next.key)
@@ -51,7 +53,4 @@ class LRUCache:
                 self.head.next.prev = self.head
             node = Node(key, value)
             self.dic[key] = node
-            node.prev = self.tail.prev
-            node.next = self.tail
-            self.tail.prev.next = node
-            self.tail.prev = node
+            self.__move_to_end(node)
