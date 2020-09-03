@@ -24,15 +24,15 @@ class MyLinkedList:
             return -1
 
         if index + 1 < self.size - index:
-            curr = self.head
+            node = self.head
             for _ in range(index + 1):
-                curr = curr.next
+                node = node.next
         else:
-            curr = self.tail
+            node = self.tail
             for _ in range(self.size - index):
-                curr = curr.prev
+                node = node.prev
 
-        return curr.val
+        return node.val
 
     def addNode(self, predecessor, successor, val):
         self.size += 1

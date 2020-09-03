@@ -39,11 +39,11 @@ class MyLinkedList:
         if index < 0:
             index = 0
 
-        self.size += 1
         prev = self.head
         for _ in range(index):
             prev = prev.next
 
+        self.size += 1
         to_add = Node(val)
         to_add.next = prev.next
         prev.next = to_add
@@ -52,9 +52,9 @@ class MyLinkedList:
         if index < 0 or index >= self.size:
             return
 
-        self.size -= 1
         prev = self.head
         for _ in range(index):
             prev = prev.next
 
+        self.size -= 1
         prev.next = prev.next.next
