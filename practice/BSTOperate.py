@@ -77,22 +77,16 @@ class Solution:
             if not root.left and not root.right:
                 root = None
             elif root.right:
-                root.val = self.successor(root)
+                node = root.right
+                while node.left:
+                    node = node.left
+                root.val = node.val
                 root.right = self.deleteNode(root.right, root.val)
             else:
-                root.val = self.predecessor(root)
+                node = root.left
+                while node.right:
+                    node = node.right
+                root.val = node.val
                 root.left = self.deleteNode(root.left, root.val)
 
         return root
-
-    def successor(self, root):
-        root = root.right
-        while root.left:
-            root = root.left
-        return root.val
-
-    def predecessor(self, root):
-        root = root.left
-        while root.right:
-            root = root.right
-        return root.val
