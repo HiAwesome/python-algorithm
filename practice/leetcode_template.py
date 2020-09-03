@@ -28,39 +28,19 @@ class TreeNode:
 
 
 class Solution:
-    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
-        word_set = set(wordList)
-        if len(word_set) == 0 or endWord not in word_set:
-            return 0
+    def maxPathSum(self, root: TreeNode) -> int:
+        self.maxVal = root.val
 
-        if beginWord in word_set:
-            word_set.remove(beginWord)
+        def dfs(root):
+            if not root:
+                return 0
+            left = max(0, dfs(root.left))
+            right = max(0, dfs(root.right))
+            self.maxVal = max(self.maxVal, root.val + left + right)
+            return root.val + max(left, right)
 
-        visited = set([beginWord, endWord])
-        begin_visited = set([beginWord])
-        end_visited = set([endWord])
-        word_len = len(beginWord)
-        step = 1
-
-        while begin_visited and end_visited:
-            if len(begin_visited) > len(end_visited):
-                begin_visited, end_visited = end_visited, begin_visited
-
-            next_level_visited = set()
-            for word in begin_visited:
-                for i in range(word_len):
-                    for char in 'abcdefghijklmnopqrstuvwxyz':
-                        next_word = word[:i] + char + word[i + 1:]
-                        if next_word in word_set:
-                            if next_word in end_visited:
-                                return step + 1
-                            if next_word not in visited:
-                                next_level_visited.add(next_word)
-                                visited.add(next_word)
-
-            begin_visited = next_level_visited
-            step += 1
-        return 0
+        dfs(root)
+        return self.maxVal
 
 
 class TestSolution(unittest.TestCase):
