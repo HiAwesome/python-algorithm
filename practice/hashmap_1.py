@@ -14,7 +14,7 @@ class Bucket:
                 return v
         return -1
 
-    def update(self, key, value):
+    def put(self, key, value):
         found = False
         for i, kv in enumerate(self.bucket):
             if key == kv[0]:
@@ -40,7 +40,7 @@ class MyHashMap(object):
         return key % self.key_space
 
     def put(self, key, value):
-        self.hash_table[self.__get_hash_key(key)].update(key, value)
+        self.hash_table[self.__get_hash_key(key)].put(key, value)
 
     def get(self, key):
         return self.hash_table[self.__get_hash_key(key)].get(key)
