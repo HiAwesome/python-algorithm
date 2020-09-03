@@ -41,16 +41,16 @@ class Bucket:
 class MyHashSet(object):
     def __init__(self):
         self.key_range = 2069
-        self.bucket_array = [Bucket() for _ in range(self.key_range)]
+        self.hashset = [Bucket() for _ in range(self.key_range)]
 
     def __get_hash_key(self, key):
         return key % self.key_range
 
     def add(self, key):
-        self.bucket_array[self.__get_hash_key(key)].add(key)
+        self.hashset[self.__get_hash_key(key)].add(key)
 
     def remove(self, key):
-        self.bucket_array[self.__get_hash_key(key)].remove(key)
+        self.hashset[self.__get_hash_key(key)].remove(key)
 
     def contains(self, key):
-        return self.bucket_array[self.__get_hash_key(key)].contains(key)
+        return self.hashset[self.__get_hash_key(key)].contains(key)
