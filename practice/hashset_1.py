@@ -22,9 +22,9 @@ class Bucket:
             curr = curr.next
         return False
 
-    def add(self, new_value):
-        if not self.contains(new_value):
-            new_node = Node(new_value, self.head.next)
+    def add(self, value):
+        if not self.contains(value):
+            new_node = Node(value, self.head.next)
             self.head.next = new_node
 
     def remove(self, value):
