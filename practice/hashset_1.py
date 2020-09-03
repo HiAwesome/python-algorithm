@@ -28,14 +28,15 @@ class Bucket:
             self.head.next = new_node
 
     def remove(self, value):
-        prev = self.head
-        curr = self.head.next
-        while curr:
-            if curr.value == value:
-                prev.next = curr.next
-                return
-            prev = curr
-            curr = curr.next
+        if self.contains(value):
+            prev = self.head
+            curr = self.head.next
+            while curr:
+                if curr.value == value:
+                    prev.next = curr.next
+                    return
+                prev = curr
+                curr = curr.next
 
 
 class MyHashSet(object):
