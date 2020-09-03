@@ -6,7 +6,7 @@ https://leetcode-cn.com/problems/design-linked-list/
 """
 
 
-class ListNode:
+class Node:
     def __init__(self, x):
         self.val = x
         self.next, self.prev = None, None
@@ -15,7 +15,7 @@ class ListNode:
 class MyLinkedList:
     def __init__(self):
         self.size = 0
-        self.head, self.tail = ListNode(0), ListNode(0)
+        self.head, self.tail = Node(0), Node(0)
         self.head.next = self.tail
         self.tail.prev = self.head
 
@@ -36,7 +36,7 @@ class MyLinkedList:
 
     def addVal(self, predecessor, successor, val):
         self.size += 1
-        to_add = ListNode(val)
+        to_add = Node(val)
         to_add.prev = predecessor
         to_add.next = successor
         predecessor.next = to_add
