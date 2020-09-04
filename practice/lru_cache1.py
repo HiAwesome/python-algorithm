@@ -17,32 +17,16 @@ class LRUCache:
         self.dict = OrderedDict()
 
     def get(self, key: int) -> int:
-        if key not in self.dict:
-            return -1
-        else:
+        if key in self.dict:
             self.dict.move_to_end(key)
             return self.dict[key]
+        else:
+            return -1
 
     def put(self, key: int, value: int) -> None:
+        if key not in self.dict:
+            if len(self.dict) == self.capacity:
+                self.dict.popitem(last=False)
+
         self.dict[key] = value
         self.dict.move_to_end(key)
-        if len(self.dict) > self.capacity:
-            self.dict.popitem(last=False)
-
-
-if __name__ == '__main__':
-    lru = LRUCache(3)
-    lru.put(1, 1)
-    lru.put(2, 2)
-    lru.put(3, 3)
-    print(lru.dict)
-    lru.get(1)
-    print(lru.dict)
-    lru.put(4, 4)
-    print(lru.dict)
-
-"""
-OrderedDict([(1, 1), (2, 2), (3, 3)])
-OrderedDict([(2, 2), (3, 3), (1, 1)])
-OrderedDict([(3, 3), (1, 1), (4, 4)])
-"""
