@@ -51,34 +51,28 @@ class Solution:
         if not lists:
             return
 
-        def merge(left, right):
-            if left == right:
-                return lists[left]
-            mid = left + (right - left) // 2
-            l1 = merge(left, mid)
-            l2 = merge(mid + 1, right)
-            return mergeTwoList(l1, l2)
+        def merge(leftIndex, rightIndex):
+            if leftIndex == rightIndex:
+                return lists[leftIndex]
+            mid = leftIndex + (rightIndex - leftIndex) // 2
+            left = merge(leftIndex, mid)
+            right = merge(mid + 1, rightIndex)
+            return mergeTwoList(left, right)
 
-        def mergeTwoList(l1, l2):
-            if not l1:
-                return l2
-            if not l2:
-                return l1
+        def mergeTwoList(left, right):
+            dummy = index = ListNode(0)
 
-            node = ListNode(0)
-            h = node
-
-            while l1 and l2:
-                if l1.val <= l2.val:
-                    h.next = l1
-                    l1 = l1.next
+            while left and right:
+                if left.val <= right.val:
+                    index.next = left
+                    left = left.next
                 else:
-                    h.next = l2
-                    l2 = l2.next
-                h = h.next
+                    index.next = right
+                    right = right.next
+                index = index.next
 
-            h.next = l1 if l1 else l2
-            return node.next
+            index.next = left if left else right
+            return dummy.next
 
         n = len(lists)
         return merge(0, n - 1)
