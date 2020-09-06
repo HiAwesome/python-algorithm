@@ -28,27 +28,27 @@ class TreeNode:
 
 
 class Solution:
-    def maxPathSum(self, root: TreeNode) -> int:
-        self.maxVal = root.val
+    def maxProduct(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
 
-        def dfs(root):
-            if not root:
-                return 0
-            left = max(0, dfs(root.left))
-            right = max(0, dfs(root.right))
-            self.maxVal = max(self.maxVal, root.val + left + right)
-            return root.val + max(left, right)
+        res = cur_min = cur_max = nums[0]
 
-        dfs(root)
-        return self.maxVal
+        for num in nums[1:]:
+            cur_max *= num
+            cur_min *= num
+            cur_max, cur_min = max(cur_max, cur_min, num), min(cur_max, cur_min, num)
+            res = max(res, cur_max)
+
+        return res
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().lengthOfLongestSubstring
+    method = Solution().maxProduct
 
     def test_1(self):
         # pass
-        self.assertEqual(self.method('abcabcbb'), 3)
+        self.assertEqual(self.method([-1, -2, -9, -6]), 108)
 
     # def test_2(self):
     #     pass
