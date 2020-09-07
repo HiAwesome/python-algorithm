@@ -13,7 +13,7 @@ Python的heapq的文档：https://docs.python.org/3/library/heapq.html
 
 """
 import heapq
-import random
+from random import randint
 from typing import List
 
 
@@ -38,41 +38,38 @@ class KthLargest:
 
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
-        size = len(nums)
+        n = len(nums)
+        target = n - k
+        leftIndex, rightIndex = 0, n - 1
 
-        target = size - k
-        left = 0
-        right = size - 1
+        def partition(left, right):
+            random_index = randint(left, right)
+            nums[left], nums[random_index] = nums[random_index], nums[left]
+
+            pivot = nums[left]
+            l, r = left + 1, right
+
+            while True:
+                while l <= r and nums[l] < pivot:
+                    l += 1
+                while l <= r and nums[r] > pivot:
+                    r -= 1
+
+                if l > r:
+                    break
+
+                nums[l], nums[r] = nums[r], nums[l]
+                l += 1
+                r -= 1
+
+            nums[leftIndex], nums[r] = nums[r], nums[leftIndex]
+            return r
+
         while True:
-            index = self.__partition(nums, left, right)
+            index = partition(leftIndex, rightIndex)
             if index == target:
                 return nums[index]
             elif index < target:
-                left = index + 1
+                leftIndex = index + 1
             else:
-                right = index - 1
-
-    def __partition(self, nums, left, right):
-        random_index = random.randint(left, right)
-        nums[random_index], nums[left] = nums[left], nums[random_index]
-
-        pivot = nums[left]
-
-        li = left + 1
-        ri = right
-
-        while True:
-            while li <= ri and nums[li] < pivot:
-                li += 1
-            while li <= ri and nums[ri] > pivot:
-                ri -= 1
-
-            if li > ri:
-                break
-
-            nums[li], nums[ri] = nums[ri], nums[li]
-            li += 1
-            ri -= 1
-
-        nums[left], nums[ri] = nums[ri], nums[left]
-        return ri
+                rightIndex = index - 1
