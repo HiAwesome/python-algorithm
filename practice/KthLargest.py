@@ -13,6 +13,7 @@ Python的heapq的文档：https://docs.python.org/3/library/heapq.html
 
 """
 import heapq
+import random
 from typing import List
 
 
@@ -33,3 +34,45 @@ class KthLargest:
             heapq.heappop(self.nums)
 
         return self.nums[0]
+
+
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        size = len(nums)
+
+        target = size - k
+        left = 0
+        right = size - 1
+        while True:
+            index = self.__partition(nums, left, right)
+            if index == target:
+                return nums[index]
+            elif index < target:
+                left = index + 1
+            else:
+                right = index - 1
+
+    def __partition(self, nums, left, right):
+        random_index = random.randint(left, right)
+        nums[random_index], nums[left] = nums[left], nums[random_index]
+
+        pivot = nums[left]
+
+        li = left + 1
+        ri = right
+
+        while True:
+            while li <= ri and nums[li] < pivot:
+                li += 1
+            while li <= ri and nums[ri] > pivot:
+                ri -= 1
+
+            if li > ri:
+                break
+
+            nums[li], nums[ri] = nums[ri], nums[li]
+            li += 1
+            ri -= 1
+
+        nums[left], nums[ri] = nums[ri], nums[left]
+        return ri
