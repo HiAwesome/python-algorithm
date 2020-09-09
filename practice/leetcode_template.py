@@ -28,27 +28,34 @@ class TreeNode:
 
 
 class Solution:
-    def maxProduct(self, nums: List[int]) -> int:
-        if not nums:
-            return 0
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
 
-        res = cur_min = cur_max = nums[0]
+        def dfs(i, j):
+            if not (0 <= i < m and 0 <= j < n and grid[i][j] == 1):
+                return 0
 
-        for num in nums[1:]:
-            cur_max *= num
-            cur_min *= num
-            cur_max, cur_min = max(cur_max, cur_min, num), min(cur_max, cur_min, num)
-            res = max(res, cur_max)
+            grid[i][j] = 0
+            res = 1
+            for ni, nj in ((i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)):
+                res += dfs(ni, nj)
 
-        return res
+            return res
+
+        ans = 0
+        for i in range(m):
+            for j in range(n):
+                ans = max(ans, dfs(i, j))
+
+        return ans
 
 
 class TestSolution(unittest.TestCase):
     method = Solution().maxProduct
 
-    def test_1(self):
+    # def test_1(self):
         # pass
-        self.assertEqual(self.method([-1, -2, -9, -6]), 108)
+        # self.assertEqual(self.method([-1, -2, -9, -6]), 108)
 
     # def test_2(self):
     #     pass
