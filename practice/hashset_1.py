@@ -5,36 +5,38 @@ https://leetcode-cn.com/problems/design-hashset/
 
 
 class Node:
-    def __init__(self, value=None, next_node=None):
-        self.value = value
-        self.next = next_node
+    def __init__(self, key=None):
+        self.key = key
+        self.next = None
 
 
 class Bucket:
     def __init__(self):
         self.head = Node()
 
-    def contains(self, value):
+    def contains(self, key):
         curr = self.head.next
         while curr:
-            if curr.value == value:
+            if curr.key == key:
                 return True
             curr = curr.next
         return False
 
-    def add(self, value):
-        if not self.contains(value):
-            new_node = Node(value, self.head.next)
-            self.head.next = new_node
+    def add(self, key):
+        if not self.contains(key):
+            node = Node(key)
+            node.next = self.head.next
+            self.head.next = node
 
-    def remove(self, value):
-        if self.contains(value):
-            prev = self.head
-            curr = self.head.next
+    def remove(self, key):
+        if self.contains(key):
+            prev, curr = self.head, self.head.next
+
             while curr:
-                if curr.value == value:
+                if curr.key == key:
                     prev.next = curr.next
                     return
+
                 prev = curr
                 curr = curr.next
 
