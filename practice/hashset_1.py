@@ -43,11 +43,11 @@ class Bucket:
 
 class MyHashSet(object):
     def __init__(self):
-        self.key_range = 2069
-        self.hashset = [Bucket() for _ in range(self.key_range)]
+        self.bucket_size = 2069
+        self.hashset = [Bucket() for _ in range(self.bucket_size)]
 
     def __get_hash_key(self, key):
-        return key % self.key_range
+        return key % self.bucket_size
 
     def add(self, key):
         self.hashset[self.__get_hash_key(key)].add(key)
