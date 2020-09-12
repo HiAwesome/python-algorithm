@@ -28,34 +28,37 @@ class TreeNode:
 
 
 class Solution:
-    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
-        m, n = len(grid), len(grid[0])
+    def isMatch(self, s: str, p: str) -> bool:
+        m, n = len(s), len(p)
 
-        def dfs(i, j):
-            if not (0 <= i < m and 0 <= j < n and grid[i][j] == 1):
-                return 0
+        def matches(i: int, j: int) -> bool:
+            if i == 0:
+                return False
+            if p[j - 1] == '.':
+                return True
+            return s[i - 1] == p[j - 1]
 
-            grid[i][j] = 0
-            res = 1
-            for ni, nj in ((i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)):
-                res += dfs(ni, nj)
+        f = [[False] * (n + 1) for _ in range(m + 1)]
+        f[0][0] = True
 
-            return res
+        for i in range(m + 1):
+            for j in range(1, n + 1):
+                if p[j - 1] == '*':
+                    f[i][j] |= f[i][j - 2]
+                    if matches(i, j - 1):
+                        f[i][j] |= f[i - 1][j]
+                else:
+                    if matches(i, j):
+                        f[i][j] |= f[i - 1][j - 1]
 
-        ans = 0
-        for i in range(m):
-            for j in range(n):
-                ans = max(ans, dfs(i, j))
-
-        return ans
+        return f[m][n]
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().maxProduct
+    method = Solution().isMatch
 
-    # def test_1(self):
-        # pass
-        # self.assertEqual(self.method([-1, -2, -9, -6]), 108)
+    def test_1(self):
+        self.assertEqual(self.method('aab', 'c*a*b'), True)
 
     # def test_2(self):
     #     pass
