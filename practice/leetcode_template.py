@@ -28,25 +28,30 @@ class TreeNode:
 
 
 class Solution:
-    def generate(self, numRows: int) -> List[List[int]]:
-        res = []
+    def myPow(self, x: float, n: int) -> float:
+        if x == 0.0:
+            return 0.0
 
-        for i in range(numRows):
-            row = [1 for _ in range(i + 1)]
+        if n < 0:
+            n = -n
+            x = 1 / x
 
-            for j in range(1, len(row) - 1):
-                row[j] = res[i - 1][j - 1] + res[i - 1][j]
+        res = 1
 
-            res.append(row)
+        while n:
+            if n % 2 != 0:
+                res *= x
+            x *= x
+            n //= 2
 
         return res
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().validSquare
+    method = Solution().myPow
 
     def test_1(self):
-        self.assertEqual(self.method([0, 0], [1, 1], [1, 0], [0, 1]), True)
+        self.assertEqual(self.method(2.0, 10), 1024.0)
 
     # def test_2(self):
     #     pass
