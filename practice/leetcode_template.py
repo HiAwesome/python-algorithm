@@ -27,42 +27,19 @@ class TreeNode:
         self.right = None
 
 
-from collections import defaultdict
-
-
 class Solution:
-    def validSquare(self, p1: List[int], p2: List[int], p3: List[int], p4: List[int]) -> bool:
+    def generate(self, numRows: int) -> List[List[int]]:
+        res = []
 
-        def lpow(o1, o2):
-            l1 = o1[0] - o2[0]
-            l2 = o1[1] - o2[1]
-            # 不开根号，避免小数精度问题
-            return l1 * l1 + l2 * l2
+        for i in range(numRows):
+            row = [1 for _ in range(i + 1)]
 
-        array = [p1, p2, p3, p4]
-        n = len(array)
-        dic = defaultdict(int)
+            for j in range(1, len(row) - 1):
+                row[j] = res[i - 1][j - 1] + res[i - 1][j]
 
-        for i in range(n):
-            for j in range(i + 1, n):
-                distance = lpow(array[i], array[j])
-                dic[distance] += 1
+            res.append(row)
 
-        if len(dic) != 2:
-            return False
-
-        dic = {v: k for k, v in dic.items()}
-
-        keys = dic.keys()
-        if 2 not in keys or 4 not in keys:
-            return False
-
-        short_dis, long_dis = dic[4], dic[2]
-
-        if short_dis * 2 == long_dis:
-            return True
-        else:
-            return False
+        return res
 
 
 class TestSolution(unittest.TestCase):
