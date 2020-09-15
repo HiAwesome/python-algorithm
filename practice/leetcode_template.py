@@ -27,38 +27,49 @@ class TreeNode:
         self.right = None
 
 
+from collections import defaultdict
+
+
 class Solution:
-    def isMatch(self, s: str, p: str) -> bool:
-        m, n = len(s), len(p)
+    def validSquare(self, p1: List[int], p2: List[int], p3: List[int], p4: List[int]) -> bool:
 
-        def matches(i: int, j: int) -> bool:
-            if i == 0:
-                return False
-            if p[j - 1] == '.':
-                return True
-            return s[i - 1] == p[j - 1]
+        def lpow(o1, o2):
+            l1 = o1[0] - o2[0]
+            l2 = o1[1] - o2[1]
+            # 不开根号，避免小数精度问题
+            return l1 * l1 + l2 * l2
 
-        f = [[False] * (n + 1) for _ in range(m + 1)]
-        f[0][0] = True
+        array = [p1, p2, p3, p4]
+        n = len(array)
+        dic = defaultdict(int)
 
-        for i in range(m + 1):
-            for j in range(1, n + 1):
-                if p[j - 1] == '*':
-                    f[i][j] |= f[i][j - 2]
-                    if matches(i, j - 1):
-                        f[i][j] |= f[i - 1][j]
-                else:
-                    if matches(i, j):
-                        f[i][j] |= f[i - 1][j - 1]
+        for i in range(n):
+            for j in range(i + 1, n):
+                distance = lpow(array[i], array[j])
+                dic[distance] += 1
 
-        return f[m][n]
+        if len(dic) != 2:
+            return False
+
+        dic = {v: k for k, v in dic.items()}
+
+        keys = dic.keys()
+        if 2 not in keys or 4 not in keys:
+            return False
+
+        short_dis, long_dis = dic[4], dic[2]
+
+        if short_dis * 2 == long_dis:
+            return True
+        else:
+            return False
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().isMatch
+    method = Solution().validSquare
 
     def test_1(self):
-        self.assertEqual(self.method('aab', 'c*a*b'), True)
+        self.assertEqual(self.method([0, 0], [1, 1], [1, 0], [0, 1]), True)
 
     # def test_2(self):
     #     pass
