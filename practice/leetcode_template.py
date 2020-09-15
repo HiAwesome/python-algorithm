@@ -28,27 +28,41 @@ class TreeNode:
 
 
 class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
+    def findNumberOfLIS(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+
         n = len(nums)
-
-        if n <= 1:
-            return n
-
         dp = [1] * n
+        dp_c = [1] * n
+        max_v = 0
 
         for i in range(n):
             for j in range(i):
                 if nums[i] > nums[j]:
-                    dp[i] = max(dp[i], dp[j] + 1)
+                    if dp[j] + 1 > dp[i]:
+                        dp[i] = dp[j] + 1
+                        dp_c[i] = dp_c[j]
+                    elif dp[j] + 1 == dp[i]:
+                        dp_c[i] += dp_c[j]
+            max_v = max(max_v, dp[i])
 
-        return max(dp)
+        ans = 0
+        for i in range(n - 1, -1, -1):
+            if dp[i] == max_v:
+                ans += dp_c[i]
+
+        return ans
+
+        mdp = max(dp)
+        return dp.count(mdp)
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().lengthOfLIS
+    method = Solution().findNumberOfLIS
 
     def test_1(self):
-        self.assertEqual(self.method([10, 9, 2, 5, 3, 7, 101, 18]), 4)
+        self.assertEqual(self.method([1, 3, 5, 4, 7]), 2)
 
     # def test_2(self):
     #     pass
