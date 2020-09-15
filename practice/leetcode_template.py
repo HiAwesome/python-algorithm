@@ -28,30 +28,27 @@ class TreeNode:
 
 
 class Solution:
-    def myPow(self, x: float, n: int) -> float:
-        if x == 0.0:
-            return 0.0
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        n = len(nums)
 
-        if n < 0:
-            n = -n
-            x = 1 / x
+        if n <= 1:
+            return n
 
-        res = 1
+        dp = [1] * n
 
-        while n:
-            if n % 2 != 0:
-                res *= x
-            x *= x
-            n //= 2
+        for i in range(n):
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    dp[i] = max(dp[i], dp[j] + 1)
 
-        return res
+        return max(dp)
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().myPow
+    method = Solution().lengthOfLIS
 
     def test_1(self):
-        self.assertEqual(self.method(2.0, 10), 1024.0)
+        self.assertEqual(self.method([10, 9, 2, 5, 3, 7, 101, 18]), 4)
 
     # def test_2(self):
     #     pass
