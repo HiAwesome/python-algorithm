@@ -14,55 +14,48 @@ from random import shuffle
 from typing import List
 
 
-class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
-
-
-class TreeNode:
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
-
-
 class Solution:
-    def findNumberOfLIS(self, nums: List[int]) -> int:
-        if not nums:
-            return 0
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        if not matrix:
+            return []
 
-        n = len(nums)
-        dp = [1] * n
-        dp_c = [1] * n
-        max_v = 0
+        l, r, t, b = 0, len(matrix[0]) - 1, 0, len(matrix) - 1
+        res = []
 
-        for i in range(n):
-            for j in range(i):
-                if nums[i] > nums[j]:
-                    if dp[j] + 1 > dp[i]:
-                        dp[i] = dp[j] + 1
-                        dp_c[i] = dp_c[j]
-                    elif dp[j] + 1 == dp[i]:
-                        dp_c[i] += dp_c[j]
-            max_v = max(max_v, dp[i])
+        while True:
+            for i in range(l, r + 1):
+                res.append(matrix[t][i])
+            t += 1
+            if t > b:
+                break
 
-        ans = 0
-        for i in range(n - 1, -1, -1):
-            if dp[i] == max_v:
-                ans += dp_c[i]
+            for i in range(t, b + 1):
+                res.append(matrix[i][r])
+            r -= 1
+            if l > r:
+                break
 
-        return ans
+            for i in range(r, l - 1, -1):
+                res.append(matrix[b][i])
+            b -= 1
+            if t > b:
+                break
 
-        mdp = max(dp)
-        return dp.count(mdp)
+            for i in range(b, t - 1, -1):
+                res.append(matrix[i][l])
+            l += 1
+            if l > r:
+                break
+
+        return res
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().findNumberOfLIS
+    method = Solution().spiralOrder
 
     def test_1(self):
-        self.assertEqual(self.method([1, 3, 5, 4, 7]), 2)
+        self.assertEqual(self.method([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]),
+                         [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7])
 
     # def test_2(self):
     #     pass
@@ -77,6 +70,19 @@ class TestSolution(unittest.TestCase):
 
     # def test_5(self):
     #     self.assertEqual(self.method('-91283472332'), -2147483648)
+
+
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
 
 if __name__ == '__main__':
