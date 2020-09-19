@@ -19,25 +19,17 @@ class Solution:
         if not s:
             return s
 
-        n = len(s)
-        lists = list(s)
         res = []
-        need_big_index = []
+        if s[0].isalnum():
+            res.append(s[0])
 
-        for i in range(1, n):
-            if not lists[i - 1].isalnum() and lists[i].isalnum():
-                # 记录需要变成大写的索引
-                need_big_index.append(i)
-
-        for i, c in enumerate(s):
-            if c.isalnum():
-                # 处理数字、需要大写的字母，需要小写的字母
-                if c.isnumeric():
-                    res.append(c)
-                elif i in need_big_index:
-                    res.append(c.upper())
-                else:
-                    res.append(c.lower())
+        for i in range(1, len(s)):
+            if not s[i - 1].isalnum() and s[i].isalpha():
+                res.append(s[i].upper())
+            elif s[i].isalpha():
+                res.append(s[i].lower())
+            elif s[i].isnumeric():
+                res.append(s[i])
 
         # 对全文首字母应用规则二
         return ''.join(res if res[0].islower() else [res[0].lower()] + res[1:])
@@ -49,9 +41,8 @@ class TestSolution(unittest.TestCase):
     def test_1(self):
         self.assertEqual(self.method('@WelCome to ## byteDance-2020'), 'welcomeToBytedance2020')
 
-    # def test_2(self):
-    #     pass
-    # self.assertEqual(self.method([1, 0, 1, 1], 1), True)
+    def test_2(self):
+        self.assertEqual(self.method('WelCome to ## byteDance-2020'), 'welcomeToBytedance2020')
 
     # def test_3(self):
     #     pass
