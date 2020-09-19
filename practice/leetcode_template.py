@@ -15,47 +15,39 @@ from typing import List
 
 
 class Solution:
-    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
-        if not matrix:
-            return []
+    def remove_data(self, s) -> str:
+        if not s:
+            return s
 
-        l, r, t, b = 0, len(matrix[0]) - 1, 0, len(matrix) - 1
+        n = len(s)
+        lists = list(s)
         res = []
+        need_big_index = []
 
-        while True:
-            for i in range(l, r + 1):
-                res.append(matrix[t][i])
-            t += 1
-            if t > b:
-                break
+        for i in range(1, n):
+            if not lists[i - 1].isalnum() and lists[i].isalnum():
+                # 记录需要变成大写的索引
+                need_big_index.append(i)
 
-            for i in range(t, b + 1):
-                res.append(matrix[i][r])
-            r -= 1
-            if l > r:
-                break
+        for i, c in enumerate(s):
+            if c.isalnum():
+                # 处理数字、需要大写的字母，需要小写的字母
+                if c.isnumeric():
+                    res.append(c)
+                elif i in need_big_index:
+                    res.append(c.upper())
+                else:
+                    res.append(c.lower())
 
-            for i in range(r, l - 1, -1):
-                res.append(matrix[b][i])
-            b -= 1
-            if t > b:
-                break
-
-            for i in range(b, t - 1, -1):
-                res.append(matrix[i][l])
-            l += 1
-            if l > r:
-                break
-
-        return res
+        # 对全文首字母应用规则二
+        return ''.join(res if res[0].islower() else [res[0].lower()] + res[1:])
 
 
 class TestSolution(unittest.TestCase):
-    method = Solution().spiralOrder
+    method = Solution().remove_data
 
     def test_1(self):
-        self.assertEqual(self.method([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]),
-                         [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7])
+        self.assertEqual(self.method('@WelCome to ## byteDance-2020'), 'welcomeToBytedance2020')
 
     # def test_2(self):
     #     pass
