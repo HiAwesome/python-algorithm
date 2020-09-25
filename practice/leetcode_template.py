@@ -5,8 +5,6 @@ import heapq
 # noinspection PyUnresolvedReferences
 import random
 # noinspection PyUnresolvedReferences
-import unittest
-# noinspection PyUnresolvedReferences
 from pprint import pprint
 # noinspection PyUnresolvedReferences
 from random import shuffle
@@ -35,24 +33,11 @@ class Solution:
         return ''.join(res if res[0].islower() else [res[0].lower()] + res[1:])
 
 
-class TestSolution(unittest.TestCase):
+if __name__ == '__main__':
     method = Solution().remove_data
 
-    def test_1(self):
-        self.assertEqual(self.method('@WelCome to ## byteDance-2020'), 'welcomeToBytedance2020')
-
-    def test_2(self):
-        self.assertEqual(self.method('WelCome to ## byteDance-2020'), 'welcomeToBytedance2020')
-
-    # def test_3(self):
-    #     pass
-    # self.assertEqual(self.method([1, 2, 3, 1, 2, 3], 2), False)
-
-    # def test_4(self):
-    #     self.assertEqual(self.method('words and 987'), 0)
-
-    # def test_5(self):
-    #     self.assertEqual(self.method('-91283472332'), -2147483648)
+    assert method('@WelCome to ## byteDance-2020'), 'welcomeToBytedance2020'
+    assert method('WelCome to ## byteDance-2020'), 'welcomeToBytedance2020'
 
 
 class ListNode:
@@ -66,7 +51,3 @@ class TreeNode:
         self.val = x
         self.left = None
         self.right = None
-
-
-if __name__ == '__main__':
-    unittest.main()
