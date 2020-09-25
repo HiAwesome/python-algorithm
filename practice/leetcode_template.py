@@ -36,8 +36,8 @@ class Solution:
 if __name__ == '__main__':
     method = Solution().remove_data
 
-    assert method('@WelCome to ## byteDance-2020'), 'welcomeToBytedance2020'
-    assert method('WelCome to ## byteDance-2020'), 'welcomeToBytedance2020'
+    assert method('@WelCome to ## byteDance-2020') == 'welcomeToBytedance2020'
+    assert method('WelCome to ## byteDance-2020') == 'welcomeToBytedance2020'
 
 
 class ListNode:
